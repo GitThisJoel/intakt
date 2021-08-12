@@ -8,4 +8,7 @@ with open(account_files) as f:
 
 def account_of(id):
     global accounts
-    return accounts[id]["account"]
+    try:
+        return accounts[id]["account"]
+    except Exception as e:
+        return 3000 

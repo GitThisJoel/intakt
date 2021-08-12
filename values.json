@@ -3,41 +3,48 @@
     "2021-01-29": {
       "choklad": {
         "quantity": "1",
-        "price": 9.0
+        "price": 9.0,
+        "account": 3000
       }
     },
     "2021-02-24": {
       "choklad": {
         "quantity": "1",
-        "price": 9.0
+        "price": 9.0,
+        "account": 3000
       },
-      "Läsk": {
+      "läsk": {
         "quantity": "1",
-        "price": 7.0
+        "price": 7.0,
+        "account": 3000
       }
     },
     "2021-02-25": {
-      "Läsk": {
+      "läsk": {
         "quantity": "2",
-        "price": 16.0
+        "price": 16.0,
+        "account": 3000
       }
     },
     "2021-03-11": {
-      "Läsk": {
+      "läsk": {
         "quantity": "1",
-        "price": 7.0
+        "price": 7.0,
+        "account": 3000
       }
     },
     "2021-03-18": {
-      "Läsk": {
+      "läsk": {
         "quantity": "1",
-        "price": 7.0
+        "price": 7.0,
+        "account": 3000
       }
     },
     "2021-03-25": {
       "matlåda": {
         "quantity": "",
-        "price": 30.0
+        "price": 30.0,
+        "account": 3000
       }
     }
   }

@@ -1,4 +1,5 @@
 import sys,json
+from account import account_of
 
 def parse(divisor=';'):
 	title=input()
@@ -8,16 +9,15 @@ def parse(divisor=';'):
 	ind_price=col_headers.index('Belopp')
 
 	values={}
-	utskottParser = {'c' : 'café'}
+	utskottParser = {'c' : 'café', 's': 'sex'}
 	for lines in sys.stdin:
-		vals=lines.strip().split(divisor)
-
-		# TODO:
-		# does not work, look how it works in zettle
+		vals=lines.strip().split(divisor
+		
 		date=vals[ind_date]
 		utskottAndQuantity,product=vals[ind_product].split()
-		utskott,quantity = utskottAndQuantity.split('-')
-		utskott = utskottParser[utskott]
+		product = product.lower()
+		prefix,quantity = utskottAndQuantity.split('-')
+		utskott = utskottParser[prefix]
 		price=float(".".join(vals[ind_price].split(',')))
 
 		# assume:
@@ -27,11 +27,11 @@ def parse(divisor=';'):
 				if product in values[utskott][date]:
 					values[utskott][date][product]['quantity']+=quantity
 				else:
-					values[utskott][date][product]={'quantity': quantity, 'price': price}
+					values[utskott][date][product]={'quantity': quantity, 'price': price, 'account': account_of(prefix)}
 			else:
-				values[utskott][date] = {product: {'quantity': quantity, 'price': price}}
+				values[utskott][date] = {product: {'quantity': quantity, 'price': price, 'account': account_of(prefix)}}
 		else:
-			values[utskott]={date:{product: {'quantity': quantity, 'price': price}}}
+			values[utskott]={date:{product: {'quantity': quantity, 'price': price, 'account': account_of(prefix)}}}
 
 	return(values)
 
