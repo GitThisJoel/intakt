@@ -4,6 +4,7 @@ infile = "..\\Zettle-Sales-By-Product-Report-20210522.csv"
 outfile = "zettle_sales.json"
 date = ""
 utskott = ""
+
 if __name__ == "__main__":
     line_skips = 6
     with open(infile, encoding="utf-8") as f:
@@ -21,7 +22,11 @@ if __name__ == "__main__":
         for t in im_titels:
             inds.append(titles.index(t))
 
+        articles = []
         for line in lines[:-1]:
-            name = line[inds[0]]
+            sale_summary = {}
+            prefix_name = line[inds[0]]
+            prefix, name = prefix_name.split("-")
+            account = -1
             nbr_sold = line[inds[1]]
             amount_sold = line[inds[2]]
