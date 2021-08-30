@@ -1,0 +1,34 @@
+{
+  "sex": {
+    "2021": [
+      {
+        "Mat": {
+          "quantity": 70.0,
+          "price": 65.0,
+          "account": 3000
+        }
+      },
+      {
+        "Picachu": {
+          "quantity": 39.0,
+          "price": 20.0,
+          "account": 3000
+        }
+      },
+      {
+        "Charmander": {
+          "quantity": 34.0,
+          "price": 20.0,
+          "account": 3000
+        }
+      },
+      {
+        "Squirtel": {
+          "quantity": 25.0,
+          "price": 20.0,
+          "account": 3000
+        }
+      }
+    ]
+  }
+}

@@ -5,16 +5,18 @@ master={
   "cafe":
     {"name": "Love Barany", "stilid": "lo5050ba-s"},
   "sex":
-    {"name": "Marie Ask Uggla", "stilid": "ma"}
+    {"name": "Marie Ask Uggla", "stilid": "ma4525as-s"},
+  "aktu":
+    {"name": "Sean Jentz", "stilid": "se5362je-s"}
 }
 
-def gen_tex(utskott, date_amounts):
-    global master
+def gen_tex(utskott, date, sales):
+    global master    
+    
     name=master[utskott]['name']
-    name=master[utskott]['stilid']
-    today=datetime.now().strftime('%Y-%m-%d')
+    stilid=master[utskott]['stilid']
 
-    sum=0
+    today=datetime.now().strftime('%Y-%m-%d')
 
     packages="""\documentclass{article}
     \usepackage[utf8]{inputenc}
@@ -23,6 +25,16 @@ def gen_tex(utskott, date_amounts):
     \usepackage{graphicx}
     \usepackage{longtable}
     """
+    
+    total=0
+    varor = """"""
+    for product in sales:
+        quantity = product["quantity"]
+        price_per_product = float('.'.join(product["price"].split(',')))
+        account = product["account"]
+        total += quantity*price_per_product
+
+        varor.append()
 
     commands_1 = """\newcommand{\skapad}{%s}
     \newcommand{\kostnadsstalle}{%s}
@@ -31,15 +43,17 @@ def gen_tex(utskott, date_amounts):
     \newcommand{\summa}{%s kr}
     \newcommand{\namn}{%s}
     \newcommand{\stilid}{%s}
-    """ % (today, utskott, "Swish", date, sum, name, stilid)
+    """ % (today, utskott, "Swish", date, total, name, stilid)
 
-    commands_2 = """\newcommand{\beskrivning}{Försäljning av varor i Cafe}
+    description = """\newcommand{\beskrivning}{Försäljning av varor i Cafe}"""
+
+    commands_2 = """
     \newcommand{\fordelning}{3000 & Försäljning & 4500 \\}
     \newcommand{\varor}{Bil & 3000 & 1 & 4500 & 4500 \\}
     """
 
     rest = ""
-    return packages+commands_1+commands_2+rest
+    return packages+commands_1+description+commands_2+rest
 
 if __name__ == "__name__":
     filename="values.json"
@@ -47,8 +61,9 @@ if __name__ == "__name__":
         data=json.load(file)
         file.close()
 
-    for utskott,values in data.items():
-        tex = gen_tex(utskott, values)
+    for utskott, values in data.items():
+        for date, sales in values.items():
+            tex = gen_tex(utskott, date, sales)
 
 
 
