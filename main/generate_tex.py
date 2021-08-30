@@ -11,8 +11,8 @@ master={
 }
 
 def gen_tex(utskott, date, sales):
-    global master    
-    
+    global master
+
     name=master[utskott]['name']
     stilid=master[utskott]['stilid']
 
@@ -25,7 +25,7 @@ def gen_tex(utskott, date, sales):
     \usepackage{graphicx}
     \usepackage{longtable}
     """
-    
+
     total=0
     varor = """"""
     for product in sales:
@@ -55,7 +55,7 @@ def gen_tex(utskott, date, sales):
     rest = ""
     return packages+commands_1+description+commands_2+rest
 
-if __name__ == "__name__":
+if __name__ == "__main__":
     filename="values.json"
     with open(filename) as file:
         data=json.load(file)

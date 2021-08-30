@@ -11,12 +11,13 @@ def parse(divisor=';'):
 	values={}
 	utskottParser = {'c' : 'café', 's': 'sex'}
 	for lines in sys.stdin:
-		vals=lines.strip().split(divisor
-		
+		vals=lines.strip().split(divisor)
+
 		date=vals[ind_date]
 		utskottAndQuantity,product=vals[ind_product].split()
 		product = product.lower()
 		prefix,quantity = utskottAndQuantity.split('-')
+		quantity = int(quantity)
 		utskott = utskottParser[prefix]
 		price=float(".".join(vals[ind_price].split(',')))
 
