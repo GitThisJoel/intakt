@@ -9,7 +9,7 @@ def parse(divisor=';'):
 	ind_price=col_headers.index('Belopp')
 
 	values={}
-	utskottParser = {'c' : 'café', 's': 'sex'}
+	utskottParser = {'c' : 'cafe', 's': 'sex'}
 	for lines in sys.stdin:
 		vals=lines.strip().split(divisor)
 

@@ -1,0 +1,53 @@
+{
+  "swish": {
+    "cafe": {
+      "2021-01-29": {
+        "choklad": {
+          "quantity": 1,
+          "price": 9.0,
+          "account": 3000
+        }
+      },
+      "2021-02-24": {
+        "choklad": {
+          "quantity": 1,
+          "price": 9.0,
+          "account": 3000
+        },
+        "läsk": {
+          "quantity": 1,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-02-25": {
+        "läsk": {
+          "quantity": 2,
+          "price": 16.0,
+          "account": 3000
+        }
+      },
+      "2021-03-11": {
+        "läsk": {
+          "quantity": 1,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-03-18": {
+        "läsk": {
+          "quantity": 1,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-03-25": {
+        "matlåda": {
+          "quantity": 1,
+          "price": 30.0,
+          "account": 3000
+        }
+      }
+    }
+  }
+}

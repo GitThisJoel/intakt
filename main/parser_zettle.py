@@ -4,7 +4,7 @@ from account import account_of
 infile = "Zettle-Sales-By-Product-Report-20210522.csv"
 outfile = "zettle_sales.json"
 date = "2021"
-utskott_dict = {"s": "sex", "c": "café", "d": "aktu"}
+utskott_dict = {"s": "sex", "c": "cafe", "d": "aktu"}
 
 if __name__ == "__main__":
     line_skips = 6

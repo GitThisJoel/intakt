@@ -1,0 +1,76 @@
+\documentclass{article}
+    \usepackage[utf8]{inputenc}
+    \usepackage[a4paper, margin=0.8in]{geometry}
+    \usepackage{palatino}
+    \usepackage{graphicx}
+    \usepackage{longtable}
+    \newcommand{\skapad}{2021-09-06}
+    \newcommand{\kostnadsstalle}{Cafémästeriet}
+    \newcommand{\typ}{Swish}
+    \newcommand{\datum}{2021-02-25}
+    \newcommand{\summa}{32.0 kr}
+    \newcommand{\namn}{Love Barany}
+    \newcommand{\stilid}{lo5050ba-s}
+    \newcommand{\beskrivning}{Försäljning av varor i Café}\newcommand{\fordelning}{3000 & Försäljning inom Sverige & 32.0\\}\newcommand{\varor}{läsk & 3000 & 2 & 16.0 & 32.0\\}\begin{document}
+    \hspace{-0.3in}
+    \begin{tabular}{p{1.0in}p{3.5in}p{2in}}
+    \includegraphics[width=0.8in]{D-symbol.pdf} &
+    \vspace{-1in}
+    {\large \uppercase{D-sektionen inom TLTH}} \newline \newline
+    {\Huge \textsf{\textbf{Intäktsräkning}}}
+    \newline \newline
+    {\large \typ}&
+    \vspace{-1in}
+    Skapad: \newline
+    \skapad \newline
+    \end{tabular}
+
+    \vspace{0.5in}
+    \hspace{-0.3in}
+    \begin{tabular}{|p{1.4in}|p{0.9in}|}
+        \multicolumn{2}{l}{Intäktsuppgifter} \\
+        \hline
+        {\footnotesize Kostnadsställe} \newline \textbf{\kostnadsstalle}&
+        {\footnotesize Datum} \newline \textbf{\datum} \\
+        \hline
+        \multicolumn{2}{|p{2.3in}|}{{\footnotesize Summa} \newline \textbf{\summa}} \\
+        \hline
+    \end{tabular}
+    \hspace{0.1in}
+    \begin{tabular}{|p{1.3in}|p{0.9in}|p{1.1in}|}
+        \multicolumn{3}{l}{Kontaktperson} \\
+        \hline
+        \multicolumn{2}{|p{2.2in}|}{{\footnotesize Namn} \newline \textbf{\namn}}
+          &
+         {\footnotesize STIL-ID} \newline \textbf{\stilid} \\
+         \hline
+         \multicolumn{3}{p{3.3in}}{{\footnotesize \quad} \newline \textbf{\quad}}
+    \end{tabular}
+
+    \subsection*{Beskrivning}
+    \beskrivning
+
+    \subsection*{Fördelning}
+    \begin{tabular}{p{0.6in}p{2in}r}
+        Konto & Beskrivning& Belopp (kr)\\ \hline
+        \fordelning
+    \end{tabular}
+
+    \subsection*{Varor}
+    \begin{longtable}[l]{llrrr}
+        Vara & Konto & Antal (st) & Styckpris (kr/st) & Belopp (kr) \\ \hline
+        \varor
+    \end{longtable}
+
+    \subsection*{Attestering}
+    \begin{tabular}{|p{2.5in}|}
+        \hline
+        {\footnotesize Datum} \newline \\
+        \hline
+        {\footnotesize Underskrift} \newline \newline\\
+        \hline
+        {\footnotesize Namn} \newline \textbf{\namn} \\
+        \hline
+    \end{tabular}
+    \end{document}
+    
