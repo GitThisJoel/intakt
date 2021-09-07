@@ -59,7 +59,7 @@ def gen_tex(utskott, date, sales, pay_type):
             account_report[account] = total
 
         varor += (
-            f"{product} & {account} & {quantity} & {price_per_product} & {total}"
+            f"{product.capitalize()} & {account} & {quantity} & {price_per_product} & {total}"
             + r"\\"
         )
 
@@ -74,7 +74,7 @@ def gen_tex(utskott, date, sales, pay_type):
     """ % (
         today,
         proper_name,
-        pay_type,
+        pay_type.capitalize(),
         date,
         total,
         name,
