@@ -40,4 +40,4 @@ if __name__ == "__main__":
 	data=parse()
 	filename='values.json'
 	with open(filename, 'w', encoding='utf8') as file:
-		file.write(json.dumps(data, indent=2, ensure_ascii=False))
+		file.write(json.dumps({'Swish': data}, indent=2, ensure_ascii=False))
