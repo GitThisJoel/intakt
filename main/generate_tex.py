@@ -17,6 +17,11 @@ master = {
         "name": "Sean Jentz",
         "stilid": "se5362je-s",
     },
+    "noll": {
+        "proper_name": "Nollningsutksottet",
+        "name": "Linus Åbrink",
+        "stilid": "li1304ab-s",
+    },
 }
 
 with open("account_details.json", "r") as f:
