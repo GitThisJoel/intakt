@@ -4,3 +4,9 @@ __pycache__/*
 __pycache__/*
 **/__pycache__/*
 
+**/*.csv
+*.csv
+**/*.xlsx
+*.xlsx
+*/*.tex
+*.tex
