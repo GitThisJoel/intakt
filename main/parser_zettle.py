@@ -2,13 +2,21 @@ import json
 from sys import prefix
 from account import account_of
 
-infile = "../Zettle-Sales-By-Product-Report-20210823.csv"
+date = "2021-09-11"
+infile = "../csv/" + date + ".csv"
 outfile = "zettle_sales.json"
-date = "2021-10-23"
-utskott_dict = {"s": "sex", "c": "cafe", "d": "aktu", "n": "noll"}
+utskott_dict = {
+    "s": "sex",
+    "c": "cafe",
+    "d": "aktu",
+    "a": "aktu",
+    "n": "noll",
+    "dc": "dchip",
+}
 
 if __name__ == "__main__":
     line_skips = 6
+    # with open(infile, encoding="utf-8") as f:
     with open(infile, encoding="unicode_escape") as f:
         i = 0
         lines = []
@@ -16,8 +24,15 @@ if __name__ == "__main__":
             lines.append(line.split(";"))
         lines = lines[line_skips:]
 
-        im_titels = ["Namn", "Antal sålda", "Sålt belopp (SEK)"]
-        titles = lines.pop(0)
+        im_titels = [
+            "Namn",
+            "Antal sålda",
+            "Sålt belopp (SEK)",
+            "Antal returnerade",
+            "Totalt inkl. moms (SEK)",
+        ]
+
+        titles = [l.strip() for l in lines.pop(0)]
         inds = []
         for t in im_titels:
             inds.append(titles.index(t))
@@ -25,21 +40,49 @@ if __name__ == "__main__":
         zettle_values = {}
         for line in lines[:-1]:
             prefix_product = line[inds[0]].split("-")
-            prefix = prefix_product[0]
+            prefix = prefix_product[0].strip()
             product = "-".join(prefix_product[1:])
 
             if len(prefix) == 1:
-                utskott = utskott_dict[prefix]
+                utskott = utskott_dict[prefix.lower()]
             else:
-                utskott = utskott_dict[prefix[:-1]]
+                if prefix == "dc":
+                    utskott = utskott_dict[prefix.lower()]
+                else:
+                    utskott = utskott_dict[prefix[:-1].lower()]
             account = account_of(prefix)
 
-            nbr_sold = float(".".join(line[inds[1]].split(",")))
-            total_amount = float(".".join(line[inds[2]].split(",")))
-            price_per_item = total_amount / nbr_sold
+            print(line)
+            if line[inds[3]] != "":
+                if line[inds[1]] != "":
+                    nbr_sold = float(line[inds[1]].replace(",", ".")) + float(
+                        line[inds[3]].replace(".", ",")
+                    )
+                    total_amount = float(line[inds[4]].replace(",", "."))
+                else:
+                    nbr_sold = float(line[inds[3]].replace(".", ","))
+                    total_amount = float(".".join(line[inds[4]].split(",")))
+            else:
+                nbr_sold = float(".".join(line[inds[1]].split(",")))
+                total_amount = float(".".join(line[inds[2]].split(",")))
+
+            if nbr_sold == 0:
+                price_per_item = 0
+            else:
+                price_per_item = total_amount / abs(nbr_sold)
+
+            product_name = product.strip().capitalize()
+            if (
+                product_name == "Dricka"
+                or product_name == "Matlåda"
+                or product_name == "Sötsaker"
+                or product_name == "Pubmat"
+                or product_name == "Övrigt"
+            ):
+                product_name += " " + line[1]
 
             summary = {
-                product.capitalize(): {
+                product_name: {
                     "quantity": nbr_sold,
                     "price": price_per_item,
                     "account": account,
@@ -48,7 +91,7 @@ if __name__ == "__main__":
 
             if utskott in zettle_values:
                 if date in zettle_values[utskott]:
-                    zettle_values[utskott][date][product.capitalize()] = {
+                    zettle_values[utskott][date][product_name] = {
                         "quantity": nbr_sold,
                         "price": price_per_item,
                         "account": account,
@@ -63,3 +106,4 @@ if __name__ == "__main__":
         # print(out)
         f.write(out)
         f.close()
+    print(lines[-1])
