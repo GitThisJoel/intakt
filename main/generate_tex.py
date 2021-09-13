@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+total_costs = 0
 master = {
     "cafe": {
         "proper_name": "Cafémästeriet",
@@ -22,6 +23,11 @@ master = {
         "name": "Linus Åbrink",
         "stilid": "li1304ab-s",
     },
+    "dchip": {
+        "proper_name": "D-chip",
+        "name": "Ellen Petersen",
+        "stilid": "el3775pe-s",
+    },
 }
 
 with open("account_details.json", "r") as f:
@@ -29,9 +35,18 @@ with open("account_details.json", "r") as f:
     f.close()
 
 
+def get_str_rep(n):
+    if int(n) == n:
+        str_n = str(int(n))
+    else:
+        str_n = str(n).replace(".", ",")
+    return str_n
+
+
 def gen_tex(utskott, date, sales, pay_type):
     global master
     global accout_details
+    global total_costs
 
     name = master[utskott]["name"]
     stilid = master[utskott]["stilid"]
@@ -50,21 +65,22 @@ def gen_tex(utskott, date, sales, pay_type):
     total = 0
     varor = r"\newcommand{\varor}{"
     account_report = {}
-    print(sales)
+
     for product, info in sales.items():
-        print(product)
+
         quantity = info["quantity"]
         price_per_product = info["price"]  # float(".".join(info["price"].split(",")))
         account = info["account"]
-        total += quantity * price_per_product
+        total += abs(quantity) * price_per_product
+        total_for_prodcut = abs(quantity) * price_per_product
 
         if account in account_report:
-            account_report[account] += total
+            account_report[account] += total_for_prodcut
         else:
-            account_report[account] = total
+            account_report[account] = total_for_prodcut
 
         varor += (
-            f"{product.capitalize()} & {account} & {quantity} & {price_per_product} & {total}"
+            f"{product.strip().capitalize()} & {account} & {get_str_rep(quantity)} & {get_str_rep(price_per_product)} & {get_str_rep(total_for_prodcut)}"
             + r"\\"
         )
 
@@ -81,7 +97,7 @@ def gen_tex(utskott, date, sales, pay_type):
         proper_name,
         pay_type.capitalize(),
         date,
-        total,
+        get_str_rep(total),
         name,
         stilid,
     )
@@ -89,7 +105,8 @@ def gen_tex(utskott, date, sales, pay_type):
     if utskott == "cafe":
         description = r"""\newcommand{\beskrivning}{Försäljning av varor i Café}"""
     elif utskott == "sex":
-        description = r"""\newcommand{\beskrivning}{Sexmästeri verksamhet}"""
+        # TODO: write name of event
+        description = r"""\newcommand{\beskrivning}{Sexmästeriets verksamhet}"""
     elif utskott == "aktu":
         description = (
             r"""\newcommand{\beskrivning}{Försäljning av varor i Aktivitetsutskottet}"""
@@ -99,7 +116,7 @@ def gen_tex(utskott, date, sales, pay_type):
 
     fordelning = r"\newcommand{\fordelning}{"
     for acc, s in account_report.items():
-        fordelning += f"{acc} & {accout_details[str(acc)]} & {s}" + r"\\"
+        fordelning += f"{acc} & {accout_details[str(acc)]} & {get_str_rep(s)}" + r"\\"
     fordelning += "}"
 
     rest = r"""\begin{document}
@@ -165,11 +182,13 @@ def gen_tex(utskott, date, sales, pay_type):
     \end{tabular}
     \end{document}
     """
+    print(utskott, total, account_report)
+    total_costs += total
     return packages + commands_1 + description + fordelning + varor + rest
 
 
 if __name__ == "__main__":
-    filename = "values.json"
+    filename = "zettle_sales.json"
     with open(filename) as file:
         sale_report = json.load(file)
         file.close()
@@ -181,8 +200,9 @@ if __name__ == "__main__":
             for date, sales in values.items():
                 tex = gen_tex(utskott, date, sales, pay_type)
 
-                filename = "tex/" + today + "_" + str(nbr) + ".tex"
+                filename = "tex/" + utskott + "_" + today + "_" + str(nbr) + ".tex"
                 with open(filename, "w", encoding="utf-8") as f:
                     f.write(tex)
                     f.close
                 nbr += 1
+    print(total_costs)
