@@ -2,16 +2,17 @@ import json
 from sys import prefix
 from account import account_of
 
-date = "2021-09-11"
+date = "2021-09-20"
 infile = "../csv/" + date + ".csv"
 outfile = "zettle_sales.json"
 utskott_dict = {
     "s": "sex",
     "c": "cafe",
-    "d": "aktu",
+    "d": "dshop",
     "a": "aktu",
     "n": "noll",
     "dc": "dchip",
+    "m": "medalj"
 }
 
 if __name__ == "__main__":

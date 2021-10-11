@@ -1,50 +1,289 @@
 {
-  "swish": {
+  "Swish": {
     "cafe": {
-      "2021-01-29": {
-        "choklad": {
+      "2021-05-28": {
+        "Läsk 9.0": {
           "quantity": 1,
           "price": 9.0,
           "account": 3000
         }
       },
-      "2021-02-24": {
+      "2021-05-31": {
+        "Läsk 7.0": {
+          "quantity": 1,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-06-17": {
+        "Läsk 12.0": {
+          "quantity": 2,
+          "price": 6.0,
+          "account": 3000
+        }
+      },
+      "2021-06-28": {
+        "Läsk 16.0": {
+          "quantity": 2,
+          "price": 8.0,
+          "account": 3000
+        }
+      },
+      "2021-07-14": {
+        "Läsk 7.0": {
+          "quantity": 1,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-08-02": {
         "choklad": {
+          "quantity": 2,
+          "price": 8.0,
+          "account": 3000
+        }
+      },
+      "2021-08-10": {
+        "Läsk 17.0": {
+          "quantity": 3,
+          "price": 5.666666666666667,
+          "account": 3000
+        }
+      },
+      "2021-08-23": {
+        "Läsk 7.0": {
+          "quantity": 3,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-08-24": {
+        "Matlåda Veg": {
+          "quantity": 2,
+          "price": 35.0,
+          "account": 3000
+        }
+      },
+      "2021-08-25": {
+        "Matlåda Kött": {
+          "quantity": 1,
+          "price": 40.0,
+          "account": 3000
+        },
+        "Matlåda Veg": {
+          "quantity": 1,
+          "price": 35.0,
+          "account": 3000
+        },
+        "Läsk 7.0": {
+          "quantity": 3,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-08-26": {
+        "Matlåda Kött": {
+          "quantity": 1,
+          "price": 40.0,
+          "account": 3000
+        }
+      },
+      "2021-08-27": {
+        "Läsk 7.0": {
+          "quantity": 3,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-08-30": {
+        "Läsk 7.0": {
+          "quantity": 7,
+          "price": 7.0,
+          "account": 3000
+        },
+        "Läsk 12.0": {
+          "quantity": 6,
+          "price": 6.0,
+          "account": 3000
+        }
+      },
+      "2021-08-31": {
+        "Läsk 7.0": {
+          "quantity": 1,
+          "price": 7.0,
+          "account": 3000
+        }
+      },
+      "2021-09-01": {
+        "Matlåda Veg": {
+          "quantity": 2,
+          "price": 35.0,
+          "account": 3000
+        }
+      },
+      "2021-09-02": {
+        "Läsk 7.0": {
+          "quantity": 2,
+          "price": 7.0,
+          "account": 3000
+        },
+        "Läsk 9.0": {
+          "quantity": 1,
+          "price": 9.0,
+          "account": 3000
+        }
+      },
+      "2021-09-03": {
+        "Matlåda Veg": {
+          "quantity": 1,
+          "price": 35.0,
+          "account": 3000
+        },
+        "Läsk 12.0": {
+          "quantity": 2,
+          "price": 6.0,
+          "account": 3000
+        },
+        "Läsk 7.0": {
+          "quantity": 4,
+          "price": 7.0,
+          "account": 3000
+        },
+        "Läsk 9.0": {
+          "quantity": 1,
+          "price": 9.0,
+          "account": 3000
+        }
+      },
+      "2021-09-06": {
+        "Läsk 9.0": {
           "quantity": 1,
           "price": 9.0,
           "account": 3000
         },
-        "läsk": {
-          "quantity": 1,
-          "price": 7.0,
-          "account": 3000
-        }
-      },
-      "2021-02-25": {
-        "läsk": {
+        "Läsk 7.0": {
           "quantity": 2,
-          "price": 16.0,
+          "price": 7.0,
+          "account": 3000
+        },
+        "choklad": {
+          "quantity": 2,
+          "price": 8.0,
+          "account": 3000
+        },
+        "Matlåda Kött": {
+          "quantity": 1,
+          "price": 40.0,
           "account": 3000
         }
       },
-      "2021-03-11": {
-        "läsk": {
+      "2021-09-07": {
+        "Läsk 7.0": {
           "quantity": 1,
           "price": 7.0,
           "account": 3000
-        }
-      },
-      "2021-03-18": {
-        "läsk": {
+        },
+        "choklad": {
+          "quantity": 3,
+          "price": 7.666666666666667,
+          "account": 3000
+        },
+        "Matlåda Veg": {
           "quantity": 1,
-          "price": 7.0,
+          "price": 37.0,
           "account": 3000
         }
       },
-      "2021-03-25": {
-        "matlåda": {
+      "2021-09-08": {
+        "Matlåda Veg": {
+          "quantity": 2,
+          "price": 37.0,
+          "account": 3000
+        },
+        "San Pellegrino": {
           "quantity": 1,
-          "price": 30.0,
+          "price": 12.0,
+          "account": 3000
+        },
+        "Coke/Crush": {
+          "quantity": 2,
+          "price": 10.0,
+          "account": 3000
+        }
+      },
+      "2021-09-09": {
+        "San Pellegrino": {
+          "quantity": 1,
+          "price": 12.0,
+          "account": 3000
+        },
+        "Power King": {
+          "quantity": 2,
+          "price": 14.0,
+          "account": 3000
+        },
+        "Läsk 9.0": {
+          "quantity": 1,
+          "price": 9.0,
+          "account": 3000
+        }
+      },
+      "2021-09-10": {
+        "San Pellegrino": {
+          "quantity": 1,
+          "price": 12.0,
+          "account": 3000
+        },
+        "Coke/Crush": {
+          "quantity": 2,
+          "price": 10.0,
+          "account": 3000
+        },
+        "Läsk 16.0": {
+          "quantity": 2,
+          "price": 8.0,
+          "account": 3000
+        }
+      },
+      "2021-09-13": {
+        "Coke/Crush": {
+          "quantity": 5,
+          "price": 9.666666666666666,
+          "account": 3000
+        },
+        "San Pellegrino": {
+          "quantity": 4,
+          "price": 12.0,
+          "account": 3000
+        },
+        "Läsk 9.0": {
+          "quantity": 1,
+          "price": 9.0,
+          "account": 3000
+        },
+        "Power King": {
+          "quantity": 2,
+          "price": 14.0,
+          "account": 3000
+        },
+        "D boll": {
+          "quantity": 1,
+          "price": 7.0,
+          "account": 3000
+        },
+        "Matlåda Veg": {
+          "quantity": 4,
+          "price": 37.0,
+          "account": 3000
+        },
+        "Wasa Sandwich": {
+          "quantity": 1,
+          "price": 9.0,
+          "account": 3000
+        },
+        "Läsk 16.0": {
+          "quantity": 2,
+          "price": 8.0,
           "account": 3000
         }
       }

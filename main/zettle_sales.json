@@ -1,0 +1,22 @@
+{
+  "zettle": {
+    "sex": {
+      "2021-09-20": {
+        "Nollesittning 2021": {
+          "quantity": 31.0,
+          "price": 70.0,
+          "account": 3000
+        }
+      }
+    },
+    "noll": {
+      "2021-09-20": {
+        "Nationssittning sittningsbiljett 2021": {
+          "quantity": 1.0,
+          "price": 180.0,
+          "account": 3000
+        }
+      }
+    }
+  }
+}

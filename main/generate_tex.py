@@ -18,6 +18,11 @@ master = {
         "name": "Sean Jentz",
         "stilid": "se5362je-s",
     },
+    "dshop": {
+        "proper_name": "D-shopen",
+        "name": "Sean Jentz",
+        "stilid": "se5362je-s",
+    },
     "noll": {
         "proper_name": "Nollningsutksottet",
         "name": "Linus Åbrink",
@@ -27,6 +32,11 @@ master = {
         "proper_name": "D-chip",
         "name": "Ellen Petersen",
         "stilid": "el3775pe-s",
+    },
+    "medalj": {
+        "proper_name": "Medlajelele",
+        "name": "Michaela Ljungstrand",
+        "stilid": "me4300lj-s", 
     },
 }
 
@@ -189,18 +199,19 @@ def gen_tex(utskott, date, sales, pay_type):
 
 if __name__ == "__main__":
     filename = "zettle_sales.json"
+    # filename = "values.json"
     with open(filename) as file:
         sale_report = json.load(file)
         file.close()
 
-    today = datetime.now().strftime("%Y-%m-%d")
+    # today = datetime.now().strftime("%Y-%m-%d")
     nbr = 1
     for pay_type, data in sale_report.items():
         for utskott, values in data.items():
             for date, sales in values.items():
                 tex = gen_tex(utskott, date, sales, pay_type)
 
-                filename = "tex/" + utskott + "_" + today + "_" + str(nbr) + ".tex"
+                filename = "tex/" + utskott + "_" + date + "_" + str(nbr) + ".tex"
                 with open(filename, "w", encoding="utf-8") as f:
                     f.write(tex)
                     f.close
