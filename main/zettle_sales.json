@@ -1,19 +1,89 @@
 {
   "zettle": {
-    "sex": {
-      "2021-09-20": {
-        "Nollesittning 2021": {
-          "quantity": 31.0,
-          "price": 70.0,
+    "cafe": {
+      "2022-02-24": {
+        "Mackor Prosciutto": {
+          "quantity": 12.0,
+          "price": 25.0,
+          "account": 3000
+        },
+        "Snacks Kexchoklad": {
+          "quantity": 12.0,
+          "price": 7.0,
+          "account": 3000
+        },
+        "Dricka Coca cola co": {
+          "quantity": 10.0,
+          "price": 9.0,
+          "account": 3000
+        },
+        "Dricka SanPelleG": {
+          "quantity": 9.0,
+          "price": 13.0,
+          "account": 3000
+        },
+        "Mackor Soltorkad tomat": {
+          "quantity": 7.0,
+          "price": 25.0,
+          "account": 3000
+        },
+        "Snacks Billys": {
+          "quantity": 6.0,
+          "price": 19.0,
+          "account": 3000
+        },
+        "Dricka Ramlösa/Läsk/Loka Crush": {
+          "quantity": 6.0,
+          "price": 7.0,
+          "account": 3000
+        },
+        "Snacks Snabbnudlar": {
+          "quantity": 4.0,
+          "price": 9.0,
+          "account": 3000
+        },
+        "Donation": {
+          "quantity": 4.0,
+          "price": 1.5,
+          "account": 3020
+        },
+        "Mackor Köttbullar": {
+          "quantity": 3.0,
+          "price": 30.0,
+          "account": 3000
+        },
+        "Dricka Vitamin well": {
+          "quantity": 3.0,
+          "price": 20.0,
+          "account": 3000
+        },
+        "Dricka Nocco": {
+          "quantity": 2.0,
+          "price": 23.0,
+          "account": 3000
+        },
+        "Dricka Festis": {
+          "quantity": 2.0,
+          "price": 14.0,
+          "account": 3000
+        },
+        "Snacks Chips Pipers": {
+          "quantity": 2.0,
+          "price": 12.0,
+          "account": 3000
+        },
+        "Dricka Powerking": {
+          "quantity": 2.0,
+          "price": 8.0,
           "account": 3000
         }
       }
     },
-    "noll": {
-      "2021-09-20": {
-        "Nationssittning sittningsbiljett 2021": {
+    "dshop": {
+      "2022-02-24": {
+        "Sångbok - inbunden": {
           "quantity": 1.0,
-          "price": 180.0,
+          "price": 150.0,
           "account": 3000
         }
       }

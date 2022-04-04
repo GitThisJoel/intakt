@@ -2,7 +2,9 @@ import json
 from sys import prefix
 from account import account_of
 
-date = "2021-09-20"
+# date = "2022-02-11"
+date = input()
+
 infile = "../csv/" + date + ".csv"
 outfile = "zettle_sales.json"
 utskott_dict = {
@@ -12,7 +14,7 @@ utskott_dict = {
     "a": "aktu",
     "n": "noll",
     "dc": "dchip",
-    "m": "medalj"
+    "m": "medalj",
 }
 
 if __name__ == "__main__":
@@ -79,8 +81,15 @@ if __name__ == "__main__":
                 or product_name == "Sötsaker"
                 or product_name == "Pubmat"
                 or product_name == "Övrigt"
+                or product_name == "Whisky"
+                or product_name == "Mackor"
+                or product_name == "Snacks"
             ):
                 product_name += " " + line[1]
+                print(product_name)
+
+            if product_name == "Donation":
+                account = 3020
 
             summary = {
                 product_name: {

@@ -34,11 +34,50 @@ master = {
         "stilid": "el3775pe-s",
     },
     "medalj": {
-        "proper_name": "Medlajelele",
+        "proper_name": "Medaljelele",
         "name": "Michaela Ljungstrand",
-        "stilid": "me4300lj-s", 
+        "stilid": "me4300lj-s",
     },
 }
+
+master = {
+    "cafe": {
+        "proper_name": "Cafémästeriet",
+        "name": "Sofia Tatidis",
+        "stilid": "so2107ta-s",
+    },
+    "sex": {
+        "proper_name": "Sexmästeriet",
+        "name": "Sebastian Malmström",
+        "stilid": "se4872ma-s",
+    },
+    "aktu": {
+        "proper_name": "Aktivitetsutskottet",
+        "name": "Alex Gustafsson",
+        "stilid": "al6414gu-s",
+    },
+    "dshop": {
+        "proper_name": "D-shopen",
+        "name": "Alex Gustafsson",
+        "stilid": "al6414gu-s",
+    },
+    "noll": {
+        "proper_name": "Nollningsutksottet",
+        "name": "Victor Winkelmann",
+        "stilid": "vi6253wi-s",
+    },
+    "dchip": {
+        "proper_name": "D-chip",
+        "name": "Klara Tjernström",
+        "stilid": "kl4257tj-s",
+    },
+    "medalj": {
+        "proper_name": "Medaljelele",
+        "name": "Axel Rosenqvist",
+        "stilid": "ax3833ro-s",
+    },
+}
+
 
 with open("account_details.json", "r") as f:
     accout_details = json.load(f)

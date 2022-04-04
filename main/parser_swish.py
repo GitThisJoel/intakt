@@ -1,8 +1,11 @@
 import sys, json
 from account import account_of
 
+i = 1
+
 
 def parse(divisor=";"):
+    global i
     title = input()
     col_headers = input().strip().split(divisor)
     ind_date = col_headers.index("Bokfdag")
@@ -14,32 +17,29 @@ def parse(divisor=";"):
     total_price = 0
     for lines in sys.stdin:
         vals = lines.strip().split(divisor)
-
         date = vals[ind_date]
         prefix, product_quantity = vals[ind_product].split("-")
         utskott = utskottParser[prefix]
 
         pq = product_quantity.split()
         if pq[0].isnumeric():
-            quantity = int(pq[0])
-            product = " ".join(pq[1:])
+            # quantity = int(pq[0])
+            product = " ".join(pq[1:] + [pq[0]])
         elif pq[-1].isnumeric():
-            quantity = int(pq[-1])
-            product = " ".join(pq[:-1])
+            # quantity = int(pq[-1])
+            product = product_quantity
         else:
-            quantity = 1
-            product = " ".join(pq)
+            product = " ".join(pq + ["1"])
+        quantity = 1
 
         price = float(vals[ind_price].replace(",", "."))
         total_price += price * quantity
-        if product == "Läsk":
-            product += " " + str(price)
+        # if product == "Läsk":
+        #    product += " " + str(price)
 
-        print(f"{price}\t {product}\t {quantity}")
-        # assume:
-        # c-2 something
-        # or
-        # c-Prodname 2
+        print(f"{i}. {price}\t {product}\t {quantity}")
+        i += 1
+
         price /= quantity
         if utskott in values:
             if date in values[utskott]:
