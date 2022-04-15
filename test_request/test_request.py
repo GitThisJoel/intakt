@@ -33,5 +33,5 @@ ret = zettle.fetch_token(
     authorization_response=redirect_response,
 )
 
-r = zettle.get("https://purchase.izettle.com/purchases/v2?limit=50&descending=true")
-print(r)
+r = zettle.get("https://purchase.izettle.com/purchases/v2?startDate=2022-04-01T00:00&endDate=2022-04-02T00:00&descending=true")
+print(r.content)
