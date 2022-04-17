@@ -7,6 +7,7 @@ from get_zettle_purchases import get_sales
 
 
 def parse(data):
+    # TODO:
     return
 
 
