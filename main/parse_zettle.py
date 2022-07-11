@@ -2,9 +2,7 @@
 
 from datetime import datetime
 import argparse
-
-from get_zettle_purchases import get_sales
-
+import get_zettle_purchases 
 
 def parse(data):
     # TODO:
@@ -33,7 +31,7 @@ def main():
     start_date = datetime.fromisoformat(args["start"])
     end_date = datetime.fromisoformat(args["end"])
 
-    sales = get_sales(start_date, end_date)
+    sales = get_zettle_purchases.get_sales(start_date, end_date)
     return parse(sales)
 
 
