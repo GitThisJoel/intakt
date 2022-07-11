@@ -1,6 +1,7 @@
 # intakt
-För att göra intäktsräkningar till Love :)
+Intakt är ett verktyg för att generera intäktsräkningar av försäljningen hos D-sektionen inom TLTH. 
 
-# Struktur
-Parsers för olika exporter genererar `values.json` med ett gemensamt format som 
-sedan kan läsas av `generate_tex.py`.
+# Hur man använder
+TODO
+
+
