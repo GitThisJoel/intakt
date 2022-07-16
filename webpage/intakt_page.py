@@ -1,3 +1,5 @@
+from datetime import date
+
 import dash
 from dash import dcc
 from dash import html
@@ -6,9 +8,22 @@ import dash_bootstrap_components as dbc
 
 navbar_img = "https://i.ibb.co/17PHQ7D/large-D.png"
 
+contributors = [
+    ("Joel Bäcker", "Skattmästare 21, Skattförman 22"),
+    ("Jacob Säll Nilsson", "Vice Skattmästare 21"),
+    ("Axel Svensson", "Skattförman 21, Vice Skattmästare 22"),
+]
+
 
 def create_options(options):
-    return [{"label": o, "id": o.lower()} for o in options]
+    return [{"label": o.capitalize(), "value": o.lower()} for o in options]
+
+
+def creat_credits_list(people):
+    s = ""
+    for name, roles in people:
+        s += f"- {name} ({roles})\n"
+    return s
 
 
 navbar = dbc.Navbar(
@@ -47,8 +62,18 @@ generate_intakt = html.Div(
         dbc.Row(
             dbc.Col(
                 dcc.Dropdown(
-                    options=["Daily", "Weekly", "Monthly", "Biannually", "Yearly", "Custom"],
-                    value="Daily",
+                    options=create_options(
+                        [
+                            "daily",
+                            "weekly",
+                            "monthly",
+                            "quarterly",
+                            "biannually",
+                            "yearly",
+                            "custom",
+                        ]
+                    ),
+                    value="daily",
                     id="time-delta-dd",
                 ),
                 xs=3,
@@ -60,14 +85,16 @@ generate_intakt = html.Div(
             [
                 dbc.Col(
                     [
+                        # dcc.DatePickerRange(), could use
                         dcc.Input(
-                            placeholder="start date",
+                            placeholder="YYYY-MM-DD",
                             id="start-date-inp",
                             style={"marginRight": "10px"},
                         ),
                         dcc.Input(
-                            placeholder="end date",
+                            placeholder="YYYY-MM-DD",
                             id="end-date-inp",
+                            style={"marginRight": "10px"},
                         ),
                     ],
                 ),
@@ -75,6 +102,10 @@ generate_intakt = html.Div(
         ),
         html.P(),
         html.H5("Result"),
+        html.P(),
+        html.H5("Credits"),
+        html.P("Made by:"),
+        dcc.Markdown(creat_credits_list(contributors)),
     ],
     style={"marginLeft": "20px", "marginRight": "20px", "marginTop": "10px"},
 )
