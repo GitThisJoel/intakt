@@ -5,7 +5,6 @@ import dash_bootstrap_components as dbc
 
 from assets.time_delta_values import TimeDeltaValues
 
-
 td = TimeDeltaValues()
 
 navbar_img = "https://i.ibb.co/17PHQ7D/large-D.png"
@@ -94,11 +93,25 @@ generate_intakt = html.Div(
                 ),
             ]
         ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.Button(
+                            "Generate intakt",
+                            id="generate-intakt",
+                            style={"marginTop": "10px"},
+                        ),
+                    ],
+                ),
+            ]
+        ),
         html.P(),
         html.H5("Result"),
         html.P(),
+        html.P(),
+        html.P(),
         html.H5("Credits"),
-        html.P("Made by:"),
         dcc.Markdown(creat_credits_list(contributors)),
     ],
     style={"marginLeft": "20px", "marginRight": "20px", "marginTop": "10px"},
