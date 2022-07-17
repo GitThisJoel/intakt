@@ -13,11 +13,13 @@ td = TimeDeltaValues()
 @app.callback(
     Output("start-date-inp", "placeholder"),
     Output("start-date-inp", "pattern"),
+    Output("start-date-inp", "value"),
     Output("end-date-inp", "placeholder"),
     Output("end-date-inp", "pattern"),
+    Output("end-date-inp", "value"),
     Input("time-delta-dd", "value"),
 )
 def change_placeholder(selected_time_delta):
     ph = td.patterns()[selected_time_delta]["placeholder"]
     pat = td.patterns()[selected_time_delta]["pattern"]
-    return ph, pat, ph, pat
+    return ph, pat, "", ph, pat, ""
