@@ -5,7 +5,9 @@ from requests_oauthlib import OAuth2Session
 from datetime import datetime
 from datetime import timedelta
 
-access_file = "credentials/access.json"
+import sys, os
+
+access_file = os.path.dirname(os.path.realpath(__file__)) + "/credentials/access.json"
 with open(access_file) as f:
     access_cred = json.load(f)
     f.close()
