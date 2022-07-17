@@ -9,7 +9,7 @@ from dash.dependencies import Input, Output, State
 
 from intakt_page import layout
 import callbacks  # load all callbacks
-from app import app, server
+from app import app
 
 template = "plotly_white"
 
