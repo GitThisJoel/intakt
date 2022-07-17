@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 
 from index import app
-from assets.time_delta_values import TimeDeltaValues
+from time_delta_values import TimeDeltaValues
 
 td = TimeDeltaValues()
 

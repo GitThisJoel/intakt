@@ -3,7 +3,7 @@ from dash import dcc
 from dash import html
 import dash_bootstrap_components as dbc
 
-from assets.time_delta_values import TimeDeltaValues
+from time_delta_values import TimeDeltaValues
 
 td = TimeDeltaValues()
 
