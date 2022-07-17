@@ -4,27 +4,12 @@ import pathlib
 f_path = str(pathlib.Path(__file__).parent.resolve())
 sys.path.append(f_path + "/../main")
 
-import dash
-from dash import dcc
 from dash import html
 from dash.dependencies import Input, Output, State
-import dash_bootstrap_components as dbc
-
-import flask
 
 from intakt_page import layout
-
-# from app import app, server
-app = dash.Dash(
-    name="intakt",
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
-    server=flask.Flask(__name__),
-)
-# app.config.suppress_callback_exceptions = True
-server = app.server
-
-app.title = "D-sek intakt"
-# app._favicon = "../webpage/assets/favicon.ico"
+import callbacks  # load all callbacks
+from app import app, server
 
 template = "plotly_white"
 

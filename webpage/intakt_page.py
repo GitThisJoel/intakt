@@ -1,10 +1,12 @@
-from datetime import date
-
 import dash
 from dash import dcc
 from dash import html
-from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
+
+from assets.time_delta_values import TimeDeltaValues
+
+
+td = TimeDeltaValues()
 
 navbar_img = "https://i.ibb.co/17PHQ7D/large-D.png"
 
@@ -62,17 +64,7 @@ generate_intakt = html.Div(
         dbc.Row(
             dbc.Col(
                 dcc.Dropdown(
-                    options=create_options(
-                        [
-                            "daily",
-                            "weekly",
-                            "monthly",
-                            "quarterly",
-                            "biannually",
-                            "yearly",
-                            "custom",
-                        ]
-                    ),
+                    options=td.options(),
                     value="daily",
                     id="time-delta-dd",
                 ),
@@ -87,12 +79,14 @@ generate_intakt = html.Div(
                     [
                         # dcc.DatePickerRange(), could use
                         dcc.Input(
-                            placeholder="YYYY-MM-DD",
+                            placeholder=td.patterns()["daily"]["placeholder"],
+                            pattern=td.patterns()["daily"]["pattern"],
                             id="start-date-inp",
                             style={"marginRight": "10px"},
                         ),
                         dcc.Input(
-                            placeholder="YYYY-MM-DD",
+                            placeholder=td.patterns()["daily"]["placeholder"],
+                            pattern=td.patterns()["daily"]["pattern"],
                             id="end-date-inp",
                             style={"marginRight": "10px"},
                         ),
