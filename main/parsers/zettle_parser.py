@@ -12,9 +12,3 @@ class ZettleParser(Parser):
 
     def get_data(data):
         pass
-
-
-def parse(data, time_delta):
-    print("time delta =", time_delta)
-    print("data =", data)
-    return
