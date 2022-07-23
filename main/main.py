@@ -1,5 +1,22 @@
+import sys, os
+
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+
 from datetime import datetime
 import argparse
+from parser_finder import parser_finder
+
+
+def args_handler(args):
+    source = args["source"]
+    start_date = datetime.fromisoformat(args["start_date"])
+    end_date = datetime.fromisoformat(args["end_date"]) if args["end_date"] is not None else None
+    time_delta = args["time_delta"]
+
+    parser_cls = parser_finder(source)
+    # sales = get_zettle_purchases.get_sales(start_date, end_date)
+    sales = parser_cls.get_data(start_date, end_date)
+    return parser_cls.parse(sales, time_delta)
 
 
 def main():
@@ -35,15 +52,7 @@ def main():
     )
 
     args = vars(parser.parse_args())
-
-    print(args)
-    source = args["source"]
-    start_date = datetime.fromisoformat(args["start_date"])
-    end_date = datetime.fromisoformat(args["end_date"]) if args["end_date"] is not None else None
-    time_delta = args["time_delta"]
-
-    sales = get_zettle_purchases.get_sales(start_date, end_date)
-    return parse(sales, time_delta)
+    return args_handler(args)
 
 
 if __name__ == "__main__":
