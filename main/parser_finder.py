@@ -1,12 +1,13 @@
-from parsers import swish_parser, zettle_parser
+from parsers.swish_parser import SwishParser
+from parsers.zettle_parser import ZettleParser
 
 parser_map = {
-    "s": swish_parser,
-    "swish": swish_parser,
-    "z": zettle_parser,
-    "zettle": zettle_parser,
+    "s": SwishParser,
+    "swish": SwishParser,
+    "z": ZettleParser,
+    "zettle": ZettleParser,
 }
 
 
-def find_parser(source):
+def parser_finder(source):
     return parser_map[source]
