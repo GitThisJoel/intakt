@@ -1,10 +1,10 @@
 # Used to generate the JSON-object from a swish report.
-from parser import Parser
+from parsers.parser import Parser
 
 
 class SwishParser(Parser):
-    def parse(data):
+    def parse(cls, data, time_delta):
         pass
 
-    def get_data(data):
+    def get_data(cls, data):
         pass

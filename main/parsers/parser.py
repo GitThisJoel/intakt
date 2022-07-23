@@ -1,11 +1,14 @@
 import abc
+from abc import abstractmethod
 
 # TODO: improve this class
 class Parser(metaclass=abc.ABCMeta):
-    @abc.metaclass
+    @staticmethod
+    @abstractmethod
     def parse(data, time_delta, *args, **kwargs):
         ...
 
-    @abc.metaclass
-    def get_data(data, *args, **kwargs):
+    @staticmethod
+    @abstractmethod
+    def get_data(start_time, end_time, *args, **kwargs):
         ...
