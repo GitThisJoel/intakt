@@ -26,10 +26,10 @@ scope = ["READ:PURCHASE"]
 def get_sales(start_date: datetime, end_date: datetime = None):
     zettle = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
 
-    authrization_url, _ = zettle.authorization_url(authorization_base_url)
+    authorization_url, _ = zettle.authorization_url(authorization_base_url)
 
-    # TODO: can this be done without human interaction.
-    redirect_response = input(authrization_url + "\n")
+    # TODO: can this be done without human interaction?
+    redirect_response = input(authorization_url + "\n")
 
     zettle.fetch_token(
         token_url,
