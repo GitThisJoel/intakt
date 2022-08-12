@@ -1,28 +1,18 @@
 {
-    "cafe": {
-        "proper_name": "Cafémästeriet",
-        "name": "Sofia Tatidis",
-        "stilid": "so2107ta-s"
-    },
-    "sex": {
-        "proper_name": "Sexmästeriet",
-        "name": "Sebastian Malmström",
-        "stilid": "se4872ma-s"
-    },
     "aktu": {
         "proper_name": "Aktivitetsutskottet",
         "name": "Alex Gustafsson",
         "stilid": "al6414gu-s"
     },
+    "cafe": {
+        "proper_name": "Cafémästeriet",
+        "name": "Sofia Tatidis",
+        "stilid": "so2107ta-s"
+    },
     "dshop": {
         "proper_name": "D-shopen",
         "name": "Alex Gustafsson",
         "stilid": "al6414gu-s"
-    },
-    "noll": {
-        "proper_name": "Nollningsutksottet",
-        "name": "Victor Winkelmann",
-        "stilid": "vi6253wi-s"
     },
     "dchip": {
         "proper_name": "D-chip",
@@ -33,5 +23,15 @@
         "proper_name": "Medaljelelekommitén",
         "name": "Axel Rosenqvist",
         "stilid": "ax3833ro-s"
+    },
+    "noll": {
+        "proper_name": "Nollningsutksottet",
+        "name": "Victor Winkelmann",
+        "stilid": "vi6253wi-s"
+    },
+    "sex": {
+        "proper_name": "Sexmästeriet",
+        "name": "Sebastian Malmström",
+        "stilid": "se4872ma-s"
     }
 }

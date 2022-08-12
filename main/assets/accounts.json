@@ -1,32 +1,54 @@
 {
+  "a": {
+    "name": "aktu",
+    "account": 3000
+  },
   "c": {
+    "name": "cafe",
+    "account": 3000
+  },
+  "d": {
+    "name": "dshop",
+    "account": 3000
+  },
+  "dc": {
+    "name": "dchip",
+    "account": 3000
+  },
+  "m": {
+    "name": "medalj",
     "account": 3000
   },
   "n": {
-    "account": 3000
-  },
-  "a": {
+    "name": "noll",
     "account": 3000
   },
   "s0": {
+    "name": "sex",
     "account": 3000
   },
   "s1": {
+    "name": "sex",
     "account": 3011
   },
   "s2": {
+    "name": "sex",
     "account": 3012
   },
   "s3": {
+    "name": "sex",
     "account": 3013
   },
   "s4": {
+    "name": "sex",
     "account": 3014
   },
   "s5": {
+    "name": "sex",
     "account": 3010
   },
   "s6": {
+    "name": "sex",
     "account": 3015
   }
 }
