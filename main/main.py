@@ -4,6 +4,8 @@ sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from datetime import datetime
 import argparse
+import json
+
 from parser_finder import parser_finder
 
 
@@ -14,7 +16,6 @@ def args_handler(args):
     time_delta = args["time_delta"]
 
     parser_cls = parser_finder(source)
-    # sales = get_zettle_purchases.get_sales(start_date, end_date)
     sales = parser_cls.get_data(start_date, end_date)
     return parser_cls.parse(sales, time_delta)
 
@@ -52,7 +53,12 @@ def main():
     )
 
     args = vars(parser.parse_args())
-    return args_handler(args)
+    parsed_data = args_handler(args)
+    outfile = "response.json"
+    with open(outfile, "w") as f:
+        json.dump(parsed_data, f, indent=2)
+
+    return
 
 
 if __name__ == "__main__":
