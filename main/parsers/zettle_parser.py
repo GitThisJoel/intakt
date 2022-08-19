@@ -16,7 +16,7 @@ al = AssetLoader()
 
 class ZettleParser(Parser):
     @staticmethod
-    def __str__():
+    def intakt_type():
         return "Zettle"
 
     @staticmethod
@@ -42,12 +42,23 @@ class ZettleParser(Parser):
                 unit_price = product["unitPrice"]
                 quantity = int(product["quantity"])
 
-                short_utskott = product_name.split("-")[0]
+                short_utskott = product_name.split("-")[0].strip()
                 if "donation" in product_name and not short_utskott == "c1":
                     short_utskott = "c1"
 
                 if not short_utskott in al.utskott_accounts:
+                    print("-----------------------")
+                    print(f"{product_name} and {short_utskott}")
                     print(f"No utskott found for\n{product}\t{quantity=}\t{unit_price=}")
+                    print("-----------------------\n")
+                    with open("err_products.txt", "a") as f:
+                        f.write("-----------------------\n")
+                        f.write(str(product))
+                        f.write("\n")
+                        f.write(str(purchase))
+                        f.write("\n")
+                        f.write("-----------------------\n")
+                        f.close()
                     continue
 
                 product_name = "".join(product_name.split("-")[1:])

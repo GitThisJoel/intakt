@@ -4,7 +4,7 @@ from parsers.parser import Parser
 
 class SwishParser(Parser):
     @staticmethod
-    def __str__():
+    def intakt_type():
         return "Swish"
 
     def parse(cls, data, time_delta):

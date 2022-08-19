@@ -5,7 +5,7 @@ from abc import abstractmethod
 class Parser(metaclass=abc.ABCMeta):
     @staticmethod
     @abstractmethod
-    def __str__(*args, **kwargs):
+    def intakt_type(*args, **kwargs):
         ...
 
     @staticmethod
