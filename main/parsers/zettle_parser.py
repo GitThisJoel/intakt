@@ -16,20 +16,36 @@ al = AssetLoader()
 
 class ZettleParser(Parser):
     @staticmethod
+    def __str__():
+        return "Zettle"
+
+    @staticmethod
     def parse(data, time_delta):
         sales = {}
-        print(data)
         for purchase in data["purchases"]:
-            amount = purchase["amount"]  # in öre
+            # amount = purchase["amount"]  # in öre
             timestamp = purchase["timestamp"]
             date = dateutil.parser.isoparse(timestamp).strftime("%Y-%m-%d")
 
             for product in purchase["products"]:
                 product_name = product["name"]
+
+                product_name.replace("\u00e5", "å")
+                product_name.replace("\u00c5", "Å")
+
+                product_name.replace("\u00e4", "ä")
+                product_name.replace("\u00c4", "Ä")
+
+                product_name.replace("\u00f6", "ö")
+                product_name.replace("\u00D6", "Ö")
+
                 unit_price = product["unitPrice"]
                 quantity = int(product["quantity"])
 
                 short_utskott = product_name.split("-")[0]
+                if "donation" in product_name and not short_utskott == "c1":
+                    short_utskott = "c1"
+
                 if not short_utskott in al.utskott_accounts:
                     print(f"No utskott found for\n{product}\t{quantity=}\t{unit_price=}")
                     continue
@@ -93,4 +109,4 @@ class ZettleParser(Parser):
             f"https://purchase.izettle.com/purchases/v2?startDate={start_date.isoformat()}&endDate={end_date.isoformat()}&descending=true"
         )
 
-        return r.json()
+        return r.json(encoding="utf-16")
