@@ -7,6 +7,10 @@
     "name": "cafe",
     "account": 3000
   },
+  "c1": {
+    "name": "cafe",
+    "account": 3020
+  },
   "d": {
     "name": "dshop",
     "account": 3000
