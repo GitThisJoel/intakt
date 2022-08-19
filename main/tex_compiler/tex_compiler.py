@@ -17,7 +17,7 @@ class TexCommands:
     datum: str
     summa: str
     namn: str
-    stillid: str
+    stilid: str
     beskrivning: str
     fordelning: str
     varor: str
@@ -26,7 +26,7 @@ class TexCommands:
         kw = asdict(self)
         s = ""
         for k, w in kw.items():
-            s += "\\newcommand{" + str(k) + "}{" + str(w) + "}\n"
+            s += "\\newcommand{\\" + str(k) + "}{" + str(w) + "}\n"
         return s
 
 
@@ -42,6 +42,10 @@ class TexCompiler:
         )
         self.today = date.today().isoformat()
 
+    def _conv_to_crown(self, x):
+        s = str(x)
+        return s[:-2] + "," + s[-2:]
+
     def _beskrivningfordelning_fordelning_sum(self, sales):
         summa = 0
         fordelning = ""
@@ -50,22 +54,25 @@ class TexCompiler:
         acc_map = {}
 
         for _, sale in sales.items():
-            tot = sale["quantity"] * sale["unit_price"]
             name = sale["name"]
+            quantity = sale["quantity"]
             account = sale["account"]
             unit_price = sale["unit_price"]
+            tot = quantity * unit_price
 
             summa += tot
-            varor += f"{name} & {account} & {unit_price} & {tot}\\\\"
+            varor += f"{name} & {account} & {quantity} & {self._conv_to_crown(unit_price)} & {self._conv_to_crown(tot)}\\\\"
             if account in acc_map:
                 acc_map[account] += tot
             else:
                 acc_map[account] = tot
 
         for acc, sales in acc_map.items():
-            fordelning += f"{acc} & {al.account_description[str(acc)]} & {sales}\\\\"
+            fordelning += (
+                f"{acc} & {al.account_description[str(acc)]} & {self._conv_to_crown(sales)}\\\\"
+            )
 
-        return summa, fordelning, varor
+        return self._conv_to_crown(summa), fordelning, varor
 
     def _prepend_commands(self):
         cmds = str(self.tex_commands)
@@ -100,7 +107,7 @@ class TexCompiler:
                         "datum": date,
                         "summa": summa,
                         "namn": master["name"],
-                        "stillid": master["stilid"],
+                        "stilid": master["stilid"],
                         "beskrivning": master["description"],
                         "fordelning": fordelning,
                         "varor": varor,
@@ -110,5 +117,12 @@ class TexCompiler:
                 self._prepend_commands()
 
                 os.system(
-                    f"pdflatex -output-directory=intaktsrakningar {self.tex_file} && rm {self.tex_file}"
+                    "&&".join(
+                        [
+                            f"pdflatex -output-directory=intaktsrakningar {self.tex_file}",
+                            f"rm intaktsrakningar/{utskott}{date_str}.log",
+                            f"rm intaktsrakningar/{utskott}{date_str}.aux",
+                            f"rm {self.tex_file}",
+                        ]
+                    )
                 )
