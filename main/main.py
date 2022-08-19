@@ -7,6 +7,7 @@ import argparse
 import json
 
 from parser_finder import parser_finder
+from tex_compiler.tex_compiler import TexCompiler
 
 
 def args_handler(args):
@@ -17,7 +18,7 @@ def args_handler(args):
 
     parser_cls = parser_finder(source)
     sales = parser_cls.get_data(start_date, end_date)
-    return parser_cls.parse(sales, time_delta)
+    return str(parser_cls), parser_cls.parse(sales, time_delta)
 
 
 def main():
@@ -53,11 +54,14 @@ def main():
     )
 
     args = vars(parser.parse_args())
-    parsed_data = args_handler(args)
+    intakt_type, parsed_data = args_handler(args)
     outfile = "response.json"
     with open(outfile, "w") as f:
         json.dump(parsed_data, f, indent=2)
+        f.close()
 
+    tc = TexCompiler(outfile, intakt_type)
+    tc.compile_all()
     return
 
 
