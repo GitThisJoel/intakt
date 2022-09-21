@@ -4,6 +4,7 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from datetime import datetime
+import pytz
 import argparse
 import json
 
@@ -17,9 +18,14 @@ def args_handler(args):
     end_date = datetime.fromisoformat(args["end_date"]) if args["end_date"] is not None else None
     time_delta = args["time_delta"]
 
-    parser_cls = parser_finder(source)
+    parser_cls = parser_finder(source)()
     sales = parser_cls.get_data(start_date, end_date)
-    return parser_cls.intakt_type(), parser_cls.parse(sales, time_delta)
+    return parser_cls.intakt_type(), parser_cls.parse(
+        sales,
+        time_delta,
+        start_date,
+        end_date,
+    )
 
 
 def main():

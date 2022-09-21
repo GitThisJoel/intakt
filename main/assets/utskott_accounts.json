@@ -27,6 +27,10 @@
     "name": "noll",
     "account": 3000
   },
+  "r": {
+    "name": "cafe",
+    "account": 3000
+  },
   "s0": {
     "name": "sex",
     "account": 3000
@@ -53,6 +57,10 @@
   },
   "s6": {
     "name": "sex",
+    "account": 3015
+  },
+  "u": {
+    "name": "uted",
     "account": 3015
   }
 }
