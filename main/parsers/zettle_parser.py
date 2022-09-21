@@ -17,8 +17,7 @@ al = AssetLoader()
 
 class ZettleParser:  # Parser
     def __init__(self):
-        self.access_cred, self.zettle, self.redirect_response = self.set_cred()
-        return
+        self.zettle = self.set_cred()
 
     def intakt_type(self):
         return "Zettle"
@@ -51,7 +50,7 @@ class ZettleParser:  # Parser
             authorization_response=redirect_response,
         )
 
-        return access_cred, zettle, redirect_response
+        return zettle
 
     def get_data_block(self, start, end, last_purpurchase_hash=None):
         if last_purpurchase_hash is None:
