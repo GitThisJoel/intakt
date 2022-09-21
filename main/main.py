@@ -19,9 +19,7 @@ def args_handler(args):
     time_delta = args["time_delta"]
 
     parser_cls = parser_finder(source)()
-    sales = parser_cls.get_data(start_date, end_date)
-    return parser_cls.intakt_type(), parser_cls.parse(
-        sales,
+    return parser_cls.intakt_type(), parser_cls.generate_sales(
         time_delta,
         start_date,
         end_date,

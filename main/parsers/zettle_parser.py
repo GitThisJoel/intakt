@@ -16,9 +16,66 @@ al = AssetLoader()
 
 
 class ZettleParser:  # Parser
-    # @staticmethod
+    def __init__(self):
+        self.access_cred, self.zettle, self.redirect_response = self.set_cred()
+        return
+
     def intakt_type(self):
         return "Zettle"
+
+    def set_cred(self):
+        access_file = os.path.dirname(os.path.realpath(__file__)) + "/../credentials/access.json"
+
+        with open(access_file) as f:
+            access_cred = json.load(f)
+            f.close()
+
+        client_id = access_cred["client_id"]
+        redirect_uri = "https://httpbin.org/get"
+
+        authorization_base_url = "https://oauth.zettle.com/authorize"
+        scope = ["READ:PURCHASE"]
+
+        zettle = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
+        authorization_url, _ = zettle.authorization_url(authorization_base_url)
+
+        # TODO: can this be done without human interaction?
+        redirect_response = input(authorization_url + "\n")
+
+        token_url = "https://oauth.zettle.com/token"
+        client_secret = access_cred["client_secret"]
+        zettle.fetch_token(
+            token_url,
+            include_client_id=True,
+            client_secret=client_secret,
+            authorization_response=redirect_response,
+        )
+
+        return access_cred, zettle, redirect_response
+
+    def get_data_block(self, start, end, last_purpurchase_hash=None):
+        if last_purpurchase_hash is None:
+            r = self.zettle.get(
+                f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&descending=true"
+            )
+        else:
+            r = self.zettle.get(
+                f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&lastPurchaseHash={last_purpurchase_hash}&descending=true"
+            )
+
+        return r.json(encoding="utf-16")
+
+    def create_limits(self, start_date: datetime, end_date: datetime):
+        start = datetime.combine(start_date, time(0, 0)).isoformat()
+
+        if end_date is None:
+            end_date = start_date + timedelta(days=1)
+        else:
+            # end_date = datetime.combine(end_date, time(23, 59))
+            end_date = end_date + timedelta(days=1)  # time is at 00:00
+        end = end_date.isoformat()
+
+        return start, end
 
     def utc_to_cet(datetime):
         return
@@ -60,8 +117,7 @@ class ZettleParser:  # Parser
 
         return sales
 
-    # @staticmethod
-    def parse_help(self, sales, data):
+    def extract_data(self, sales, data):
         for purchase in data["purchases"]:
             # amount = purchase["amount"]  # in öre
             timestamp = purchase["timestamp"]
@@ -69,8 +125,6 @@ class ZettleParser:  # Parser
 
             if "discounts" in purchase and len(purchase["discounts"]) > 0:
                 sales = self.entire_purchase_discount(date, sales, purchase)
-                print("sales now")
-                print(sales)
 
             for product in purchase["products"]:
                 product_name = product["name"]
@@ -87,9 +141,11 @@ class ZettleParser:  # Parser
                 unit_price = product["unitPrice"]
                 quantity = int(product["quantity"])
 
-                short_utskott = product_name.split("-")[0].strip().lower()
+                short_utskott = self.get_short_utskott(product_name)
+
                 if "donation" in product_name and not short_utskott == "c1":
                     short_utskott = "c1"
+
                 if not short_utskott in al.utskott_accounts:
                     print("-----------------------")
                     print(f"{product_name} and {short_utskott}")
@@ -126,77 +182,27 @@ class ZettleParser:  # Parser
 
         return sales
 
-    # @staticmethod
-    def parse(
+    def generate_sales(
         self,
-        data,
         time_delta,
         start_date: datetime,
         end_date: datetime,
     ):
-        sales = {}
+        start, end = self.create_limits(start_date, end_date)
+        print(f"{start=}, {end=}")
 
-        data = ZettleParser().get_data(start_date, end_date)
+        sales = {}
+        last_purchase_hash = None
+
+        data = self.get_data_block(start, end, last_purpurchase_hash=None)
         while len(data["purchases"]) > 0:
-            sales = ZettleParser().parse_help(sales, data)
-            data = ZettleParser().get_data(
-                start_date, end_date, last_pur_hash=data["lastPurchaseHash"]
-            )
+            sales = self.extract_data(sales, data)
+
+            last_purchase_hash = data["lastPurchaseHash"]
+            data = self.get_data_block(start, end, last_purpurchase_hash=last_purchase_hash)
 
         def delimiter_splitter(key):
             return key.split("_")
 
         sales = {key: sales[key] for key in sorted(sales)}
         return unflatten(sales, splitter=delimiter_splitter)
-
-    def set_cred():
-        return
-
-    # @staticmethod
-    def get_data(self, start_date: datetime, end_date: datetime, last_pur_hash=None):
-        access_file = os.path.dirname(os.path.realpath(__file__)) + "/../credentials/access.json"
-        with open(access_file) as f:
-            access_cred = json.load(f)
-            f.close()
-
-        client_id = access_cred["client_id"]
-        client_secret = access_cred["client_secret"]
-        redirect_uri = "https://httpbin.org/get"
-
-        authorization_base_url = "https://oauth.zettle.com/authorize"
-        token_url = "https://oauth.zettle.com/token"
-        scope = ["READ:PURCHASE"]
-
-        zettle = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
-        authorization_url, _ = zettle.authorization_url(authorization_base_url)
-
-        # TODO: can this be done without human interaction?
-        redirect_response = input(authorization_url + "\n")
-
-        zettle.fetch_token(
-            token_url,
-            include_client_id=True,
-            client_secret=client_secret,
-            authorization_response=redirect_response,
-        )
-
-        start = datetime.combine(start_date, time(0, 0)).isoformat()
-
-        if end_date is None:
-            end_date = start_date + timedelta(days=1)
-        else:
-            # end_date = datetime.combine(end_date, time(23, 59))
-            end_date = end_date + timedelta(days=1)  # time is at 00:00
-        end = end_date.isoformat()
-
-        print(f"{start=}, {end=}")
-        if last_pur_hash is None:
-            r = zettle.get(
-                f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&descending=true"
-            )
-        else:
-            r = zettle.get(
-                f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&lastPurchaseHash={last_pur_hash}&descending=true"
-            )
-
-        return r.json(encoding="utf-16")
