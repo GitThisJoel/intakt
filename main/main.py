@@ -11,12 +11,25 @@ import json
 from parser_finder import parser_finder
 from tex_compiler.tex_compiler import TexCompiler
 
+from datetime import datetime
+import pytz
+
+
+def swe_to_utc(dt: datetime):
+    return pytz.timezone("Europe/Stockholm").localize(dt).astimezone(pytz.utc)
+
 
 def args_handler(args):
     source = args["source"]
-    start_date = datetime.fromisoformat(args["start_date"])
-    end_date = datetime.fromisoformat(args["end_date"]) if args["end_date"] is not None else None
+    start_date = swe_to_utc(datetime.fromisoformat(args["start_date"]))
+    end_date = (
+        swe_to_utc(datetime.fromisoformat(args["end_date"]))
+        if args["end_date"] is not None
+        else None
+    )
     time_delta = args["time_delta"]
+
+    print(start_date, end_date)
 
     parser_cls = parser_finder(source)()
     return parser_cls.intakt_type(), parser_cls.generate_sales(
