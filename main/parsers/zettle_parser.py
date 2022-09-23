@@ -1,9 +1,9 @@
 # Use to generate the JSON-object from the Zettle API respnose.
-from pkgutil import get_data
 import sys, os
 
-from datetime import datetime
-from datetime import timedelta, time
+from datetime import datetime, timedelta, time
+import pytz
+
 from requests_oauthlib import OAuth2Session
 import json
 import dateutil.parser
@@ -65,22 +65,20 @@ class ZettleParser:  # Parser
         return r.json(encoding="utf-16")
 
     def create_limits(self, start_date: datetime, end_date: datetime):
-        start = datetime.combine(start_date, time(0, 0)).isoformat()
+        start = start_date.strftime("%Y-%m-%dT%H:%M")
 
         if end_date is None:
             end_date = start_date + timedelta(days=1)
         else:
-            # end_date = datetime.combine(end_date, time(23, 59))
-            end_date = end_date + timedelta(days=1)  # time is at 00:00
-        end = end_date.isoformat()
+            end_date = end_date + timedelta(days=1)
+        end = end_date.strftime("%Y-%m-%dT%H:%M")
 
         return start, end
 
-    def utc_to_cet(datetime):
-        return
-
-    def cet_to_utc(datetime):
-        return
+    def date_utc_to_swe(self, date: str):
+        dt = datetime.fromisoformat(date)
+        pytz.timezone("UTC").localize(dt).astimezone(pytz.timezone("Europe/Stockholm"))
+        return dt.strftime("%Y-%m-%d")
 
     def get_short_utskott(self, name):
         return name.split("-")[0].strip().lower()
@@ -98,7 +96,7 @@ class ZettleParser:  # Parser
             total_discount = 0
             for discount in purchase["discounts"]:
                 total_discount += discount["value"]
-            sale_key = "_".join([utskott_name, date, "discounts"])
+            sale_key = "_".join([utskott_name, self.date_utc_to_swe(date), "discounts"])
             if sale_key in sales:
                 sales[sale_key]["unit_price"] -= total_discount
             else:
@@ -120,7 +118,7 @@ class ZettleParser:  # Parser
         for purchase in data["purchases"]:
             # amount = purchase["amount"]  # in öre
             timestamp = purchase["timestamp"]
-            date = dateutil.parser.isoparse(timestamp).strftime("%Y-%m-%d")
+            date = dateutil.parser.isoparse(timestamp).strftime("%Y-%m-%dT%H:%M")
 
             if "discounts" in purchase and len(purchase["discounts"]) > 0:
                 sales = self.entire_purchase_discount(date, sales, purchase)
@@ -167,7 +165,7 @@ class ZettleParser:  # Parser
 
                 product_name_index = product_name + str(unit_price)
 
-                sale_key = "_".join([utskott_name, date, product_name_index])
+                sale_key = "_".join([utskott_name, self.date_utc_to_swe(date), product_name_index])
 
                 if sale_key in sales:
                     sales[sale_key]["quantity"] += quantity
