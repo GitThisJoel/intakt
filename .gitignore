@@ -19,6 +19,7 @@ response.json
 intaktsrakningar/
 test_request/
 test_response*
+**/tex_compiler/*.tex
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,tex,latex
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,visualstudiocode,tex,latex
