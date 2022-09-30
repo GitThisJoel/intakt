@@ -19,24 +19,39 @@ def swe_to_utc(dt: datetime):
     return pytz.timezone("Europe/Stockholm").localize(dt).astimezone(pytz.utc)
 
 
+def handle_date(date, args):
+    return swe_to_utc(datetime.fromisoformat(args[date])) if args[date] is not None else None
+
+
 def args_handler(args):
     source = args["source"]
-    start_date = swe_to_utc(datetime.fromisoformat(args["start_date"]))
-    end_date = (
-        swe_to_utc(datetime.fromisoformat(args["end_date"]))
-        if args["end_date"] is not None
-        else None
-    )
+    start_date = handle_date("start_date", args)
+    end_date = handle_date("end_date", args)
     time_delta = args["time_delta"]
+    input_fp = args["input_fp"]
 
     print(start_date, end_date)
 
     parser_cls = parser_finder(source)()
-    return parser_cls.intakt_type(), parser_cls.generate_sales(
-        time_delta,
-        start_date,
-        end_date,
-    )
+    if parser_cls.intakt_type == "Zettle":
+        if start_date is None:
+            print("error, need to specify start date")
+            return "", {}
+
+        return parser_cls.intakt_type(), parser_cls.get_sales(
+            time_delta,
+            start_date,
+            end_date,
+        )
+    elif parser_cls.intakt_type() == "Swish":
+        if input_fp is None:
+            print("error, need to specify input file path")
+            return "", {}
+
+        return parser_cls.intakt_type(), parser_cls.get_sales(
+            input_fp,
+            time_delta,
+        )
 
 
 def main():
@@ -52,6 +67,8 @@ def main():
     parser.add_argument(
         "-sd",
         "--start-date",
+        default=None,
+        nargs="?",
         help="The start date for the fetch of Zettle sales. Date is on ISO format: yy-mm-ddThh:mm:ss, time is default to zero",
     )
 
@@ -71,8 +88,19 @@ def main():
         help="The time of which each report spans",
     )
 
+    parser.add_argument(
+        "-inp",
+        "--input-fp",
+        default=None,
+        nargs="?",
+        help="Input file path",
+    )
+
     args = vars(parser.parse_args())
     intakt_type, parsed_data = args_handler(args)
+
+    if intakt_type == "" or len(parsed_data) == 0:
+        return
 
     outfile = "response.json"
     with open(outfile, "w") as f:
