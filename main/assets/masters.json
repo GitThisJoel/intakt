@@ -41,6 +41,12 @@
         "stilid": "vi6253wi-s",
         "description": "Nollningsutksottets verksamhet"
     },
+    "skatt": {
+        "proper_name": "Skattmästeriet",
+        "name": "Emma Kujala",
+        "stilid": "em4751ku-s",
+        "description": "Bank-, Zettle- eller Swish-kostnader / okända utskott"
+    },
     "sex": {
         "proper_name": "Sexmästeriet",
         "name": "Sebastian Malmström",

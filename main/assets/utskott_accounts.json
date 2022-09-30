@@ -31,6 +31,10 @@
     "name": "cafe",
     "account": 3000
   },
+  "sk": {
+    "name": "skatt",
+    "account": 3000
+  },
   "s0": {
     "name": "sex",
     "account": 3000
