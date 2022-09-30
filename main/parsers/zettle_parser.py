@@ -179,7 +179,7 @@ class ZettleParser:  # Parser
 
         return sales
 
-    def generate_sales(
+    def get_sales(
         self,
         time_delta,
         start_date: datetime,
