@@ -154,9 +154,9 @@ class ZettleParser:  # Parser
                         f.write("\n")
                         f.write(str(purchase))
                         f.write("\n")
-                        f.write("-----------------------\n")
+                        f.write("-----------------------\n\n")
                         f.close()
-                    continue
+                    short_utskott = "sk"
 
                 product_name = "".join(product_name.split("-")[1:])
                 utskott_account = al.utskott_accounts[short_utskott]
