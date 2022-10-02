@@ -33,7 +33,7 @@ def args_handler(args):
     print(start_date, end_date)
 
     parser_cls = parser_finder(source)()
-    if parser_cls.intakt_type == "Zettle":
+    if parser_cls.intakt_type() == "Zettle":
         if start_date is None:
             print("error, need to specify start date")
             return "", {}
@@ -97,6 +97,7 @@ def main():
     )
 
     args = vars(parser.parse_args())
+    print(args)
     intakt_type, parsed_data = args_handler(args)
 
     if intakt_type == "" or len(parsed_data) == 0:
