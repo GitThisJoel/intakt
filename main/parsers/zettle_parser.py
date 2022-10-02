@@ -145,11 +145,14 @@ class ZettleParser:  # Parser
 
                 if not short_utskott in al.utskott_accounts:
                     print("-----------------------")
+                    print("Zettle date:", date)
                     print(f"{product_name} and {short_utskott}")
                     print(f"No utskott found for\n{product}\t{quantity=}\t{unit_price=}")
                     print("-----------------------\n")
                     with open("err_products.txt", "a") as f:
                         f.write("-----------------------\n")
+                        f.write(f"zettle date: {date}")
+                        f.write("\n")
                         f.write(str(product))
                         f.write("\n")
                         f.write(str(purchase))
@@ -158,7 +161,10 @@ class ZettleParser:  # Parser
                         f.close()
                     short_utskott = "sk"
 
-                product_name = "".join(product_name.split("-")[1:])
+                if short_utskott == "sk":
+                    print(product_name.split("-"))
+                if len(product_name.split("-")) > 1:
+                    product_name = "".join(product_name.split("-")[1:])
                 utskott_account = al.utskott_accounts[short_utskott]
                 account = utskott_account["account"]
                 utskott_name = utskott_account["name"]
@@ -166,7 +172,11 @@ class ZettleParser:  # Parser
                 product_name_index = product_name + str(unit_price)
 
                 sale_key = "_".join([utskott_name, self.date_utc_to_swe(date), product_name_index])
-
+                if short_utskott == "sk":
+                    print("skatt")
+                    print(f"{product_name=}")
+                    print(f"{unit_price=}")
+                    print(f"{sale_key=}")
                 if sale_key in sales:
                     sales[sale_key]["quantity"] += quantity
                 else:
