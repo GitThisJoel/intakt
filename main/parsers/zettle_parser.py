@@ -3,6 +3,7 @@ import sys, os
 
 from datetime import datetime, timedelta, time
 import pytz
+from dateutil.tz import tzlocal
 
 from requests_oauthlib import OAuth2Session
 import json
@@ -75,15 +76,14 @@ class ZettleParser:  # Parser
 
         return start, end
 
-    def date_utc_to_swe(self, date: str):
-        dt = datetime.fromisoformat(date)
-        pytz.timezone("UTC").localize(dt).astimezone(pytz.timezone("Europe/Stockholm"))
+    def date_utc_to_swe(self, utc_dt: datetime):
+        dt = utc_dt.astimezone(tzlocal())
         return dt.strftime("%Y-%m-%d")
 
     def get_short_utskott(self, name):
         return name.split("-")[0].strip().lower()
 
-    def entire_purchase_discount(self, date, sales, purchase):
+    def entire_purchase_discount(self, date: datetime, sales, purchase):
         short_utskott = self.get_short_utskott(purchase["products"][0]["name"])
         all_same = True
         for product in purchase["products"][1:]:
@@ -96,7 +96,13 @@ class ZettleParser:  # Parser
             total_discount = 0
             for discount in purchase["discounts"]:
                 total_discount += discount["value"]
-            sale_key = "_".join([utskott_name, self.date_utc_to_swe(date), "discounts"])
+            sale_key = "_".join(
+                [
+                    utskott_name,
+                    self.date_utc_to_swe(date),
+                    "discounts",
+                ]
+            )
             if sale_key in sales:
                 sales[sale_key]["unit_price"] -= total_discount
             else:
@@ -118,7 +124,8 @@ class ZettleParser:  # Parser
         for purchase in data["purchases"]:
             # amount = purchase["amount"]  # in öre
             timestamp = purchase["timestamp"]
-            date = dateutil.parser.isoparse(timestamp).strftime("%Y-%m-%dT%H:%M")
+            date = dateutil.parser.isoparse(timestamp)
+            str_date = date.strftime("%Y-%m-%dT%H:%M")
 
             if "discounts" in purchase and len(purchase["discounts"]) > 0:
                 sales = self.entire_purchase_discount(date, sales, purchase)
@@ -145,13 +152,13 @@ class ZettleParser:  # Parser
 
                 if not short_utskott in al.utskott_accounts:
                     print("-----------------------")
-                    print("Zettle date:", date)
+                    print("Zettle date:", str_date)
                     print(f"{product_name} and {short_utskott}")
                     print(f"No utskott found for\n{product}\t{quantity=}\t{unit_price=}")
                     print("-----------------------\n")
                     with open("err_products.txt", "a") as f:
                         f.write("-----------------------\n")
-                        f.write(f"zettle date: {date}")
+                        f.write(f"zettle date: {str_date}")
                         f.write("\n")
                         f.write(str(product))
                         f.write("\n")
@@ -171,7 +178,13 @@ class ZettleParser:  # Parser
 
                 product_name_index = product_name + str(unit_price)
 
-                sale_key = "_".join([utskott_name, self.date_utc_to_swe(date), product_name_index])
+                sale_key = "_".join(
+                    [
+                        utskott_name,
+                        self.date_utc_to_swe(date),
+                        product_name_index,
+                    ]
+                )
                 if short_utskott == "sk":
                     print("skatt")
                     print(f"{product_name=}")
