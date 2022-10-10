@@ -131,16 +131,22 @@ class ZettleParser:  # Parser
                 sales = self.entire_purchase_discount(date, sales, purchase)
 
             for product in purchase["products"]:
-                product_name = product["name"]
+                if "name" not in product and product["type"] == "CUSTOM_AMOUNT":
+                    # IF YOU SELL A PRODUCT USING CUSTOM AMOUNT, I WISH YOU A UNPLEASANT DAY
+                    product_name = "CUSTOM AMOUNT"
+                else:
+                    product_name = product["name"]
 
-                product_name.replace("\u00e5", "å")
-                product_name.replace("\u00c5", "Å")
+                # product_name.replace("\u00e5", "å")
+                # product_name.replace("\u00c5", "Å")
+                # product_name.replace("\u00e4", "ä")
+                # product_name.replace("\u00c4", "Ä")
+                # product_name.replace("\u00f6", "ö")
+                # product_name.replace("\u00D6", "Ö")
 
-                product_name.replace("\u00e4", "ä")
-                product_name.replace("\u00c4", "Ä")
-
-                product_name.replace("\u00f6", "ö")
-                product_name.replace("\u00D6", "Ö")
+                product_name = product_name.replace("\\", "\\\\")
+                product_name = product_name.replace("&", "\&")
+                product_name = product_name.replace("$", "\$")
 
                 unit_price = product["unitPrice"]
                 quantity = int(product["quantity"])
@@ -199,7 +205,6 @@ class ZettleParser:  # Parser
                         "unit_price": unit_price,
                         "account": account,
                     }
-
         return sales
 
     def get_sales(
