@@ -131,9 +131,11 @@ class ZettleParser:  # Parser
                 sales = self.entire_purchase_discount(date, sales, purchase)
 
             for product in purchase["products"]:
-                if "name" not in product and product["type"] == "CUSTOM_AMOUNT":
-                    # IF YOU SELL A PRODUCT USING CUSTOM AMOUNT, I WISH YOU A UNPLEASANT DAY
-                    product_name = "CUSTOM AMOUNT"
+                if "name" not in product: 
+                    product_name = "UNKNOWN"
+                    if product["type"] == "CUSTOM_AMOUNT":
+                        # IF YOU SELL A PRODUCT USING CUSTOM AMOUNT, I WISH YOU A UNPLEASANT DAY
+                        product_name = "CUSTOM AMOUNT"
                 else:
                     product_name = product["name"]
 
