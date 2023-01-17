@@ -1,56 +1,56 @@
 {
     "aktu": {
         "proper_name": "Aktivitetsutskottet",
-        "name": "Alex Gustafsson",
-        "stilid": "al6414gu-s",
+        "name": "Rafael Holgersson",
+        "stilid": "ra6147ho-s",
         "description": "Aktivitetsutskottets verksamhet"
     },
     "uted": {
         "proper_name": "Utedischot",
-        "name": "Alex Gustafsson",
-        "stilid": "al6414gu-s",
+        "name": "Rafael Holgersson",
+        "stilid": "ra6147ho-s",
         "description": "Utedischots verksamhet"
     },
     "cafe": {
         "proper_name": "Cafémästeriet",
-        "name": "Sofia Tatidis",
-        "stilid": "so2107ta-s",
+        "name": "Arvid Karp",
+        "stilid": "ar0043ka-s",
         "description": "Cafémästeriets verksamhet"
     },
     "dshop": {
         "proper_name": "D-shopen",
-        "name": "Alex Gustafsson",
-        "stilid": "al6414gu-s",
+        "name": "Rafael Holgersson",
+        "stilid": "ra6147ho-s",
         "description": "Försäljning i D-shopen"
     },
     "dchip": {
         "proper_name": "D-chip",
-        "name": "Klara Tjernström",
-        "stilid": "kl4257tj-s",
+        "name": "Alice Tottie",
+        "stilid": "al7546to-s",
         "description": "D-chips verksamhet"
     },
     "medalj": {
         "proper_name": "Medaljelelekommitén",
-        "name": "Oliver Levay",
-        "stilid": "ol1662le-s",
+        "name": "Axel Rosenquist",
+        "stilid": "ax3833ro-s",
         "description": "Medaljelelekommiténs verksamhet"
     },
     "noll": {
         "proper_name": "Nollningsutksottet",
-        "name": "Victor Winkelmann",
-        "stilid": "vi6253wi-s",
+        "name": "Pernilla Åström",
+        "stilid": "pe2312as-s",
         "description": "Nollningsutksottets verksamhet"
     },
     "skatt": {
         "proper_name": "Skattmästeriet",
-        "name": "Emma Kujala",
-        "stilid": "em4751ku-s",
+        "name": "Axel Svensson",
+        "stilid": "ax6160sv-s",
         "description": "Bank-, Zettle- eller Swish-kostnader / okända utskott"
     },
     "sex": {
         "proper_name": "Sexmästeriet",
-        "name": "Sebastian Malmström",
-        "stilid": "se4872ma-s",
+        "name": "Ludvig Svedberg",
+        "stilid": "lu4185sv-s",
         "description": "Sexmästeriets verksamhet"
     }
 }
