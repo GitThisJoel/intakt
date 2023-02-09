@@ -24,7 +24,9 @@ class ZettleParser:  # Parser
         return "Zettle"
 
     def set_cred(self):
-        access_file = os.path.dirname(os.path.realpath(__file__)) + "/../credentials/access.json"
+        access_file = (
+            os.path.dirname(os.path.realpath(__file__)) + "/../credentials/access.json"
+        )
 
         with open(access_file) as f:
             access_cred = json.load(f)
@@ -63,7 +65,7 @@ class ZettleParser:  # Parser
                 f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&lastPurchaseHash={last_purpurchase_hash}&descending=true"
             )
 
-        return r.json(encoding="utf-16")
+        return r.json()  # encoding="utf-16"
 
     def create_limits(self, start_date: datetime, end_date: datetime):
         start = start_date.strftime("%Y-%m-%dT%H:%M")
@@ -131,7 +133,7 @@ class ZettleParser:  # Parser
                 sales = self.entire_purchase_discount(date, sales, purchase)
 
             for product in purchase["products"]:
-                if "name" not in product: 
+                if "name" not in product:
                     product_name = "UNKNOWN"
                     if product["type"] == "CUSTOM_AMOUNT":
                         # IF YOU SELL A PRODUCT USING CUSTOM AMOUNT, I WISH YOU A UNPLEASANT DAY
@@ -162,7 +164,9 @@ class ZettleParser:  # Parser
                     print("-----------------------")
                     print("Zettle date:", str_date)
                     print(f"{product_name} and {short_utskott}")
-                    print(f"No utskott found for\n{product}\t{quantity=}\t{unit_price=}")
+                    print(
+                        f"No utskott found for\n{product}\t{quantity=}\t{unit_price=}"
+                    )
                     print("-----------------------\n")
                     with open("err_products.txt", "a") as f:
                         f.write("-----------------------\n")
@@ -226,7 +230,9 @@ class ZettleParser:  # Parser
             sales = self.extract_data(sales, data)
 
             last_purchase_hash = data["lastPurchaseHash"]
-            data = self.get_data_block(start, end, last_purpurchase_hash=last_purchase_hash)
+            data = self.get_data_block(
+                start, end, last_purpurchase_hash=last_purchase_hash
+            )
 
         def delimiter_splitter(key):
             return key.split("_")
