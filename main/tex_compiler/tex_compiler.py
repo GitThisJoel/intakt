@@ -31,16 +31,19 @@ class TexCommands:
 
 
 class TexCompiler:
-    def __init__(self, sales_fp, intakt_type):
+    def __init__(self, sales_fp, intakt_type, output_fp):
         with open(sales_fp, "r") as f:
             self.sales = json.load(f)
             f.close()
 
         self.intakt_type = intakt_type
         self.intakt_skeleton = (
-            os.path.dirname(os.path.realpath(inspect.getfile(self.__class__))) + "/intakt.tex"
+            os.path.dirname(os.path.realpath(inspect.getfile(self.__class__)))
+            + "/intakt.tex"
         )
         self.today = date.today().isoformat()
+
+        self.output_fp = output_fp
 
     def _conv_to_crown(self, x):
         s = str(x)
@@ -68,9 +71,7 @@ class TexCompiler:
                 acc_map[account] = tot
 
         for acc, sales in acc_map.items():
-            fordelning += (
-                f"{acc} & {al.account_description[str(acc)]} & {self._conv_to_crown(sales)}\\\\"
-            )
+            fordelning += f"{acc} & {al.account_description[str(acc)]} & {self._conv_to_crown(sales)}\\\\"
 
         return self._conv_to_crown(summa), fordelning, varor
 
@@ -97,7 +98,9 @@ class TexCompiler:
                     + f"/{utskott}{date_str}.tex"
                 )
 
-                summa, fordelning, varor = self._beskrivningfordelning_fordelning_sum(sales)
+                summa, fordelning, varor = self._beskrivningfordelning_fordelning_sum(
+                    sales
+                )
 
                 self.tex_commands = TexCommands(
                     **{
@@ -126,3 +129,8 @@ class TexCompiler:
                         ]
                     )
                 )
+
+        if self.output_fp is not None:
+            os.system(f"pdfjam intaktsrakningar/*.pdf -o {self.output_fp}")
+
+        return
