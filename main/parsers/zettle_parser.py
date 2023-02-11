@@ -1,71 +1,89 @@
 # Use to generate the JSON-object from the Zettle API respnose.
-import sys, os
-
-from datetime import datetime, timedelta, time
-import pytz
-from dateutil.tz import tzlocal
-
-from requests_oauthlib import OAuth2Session
 import json
-import dateutil.parser
-from flatten_dict import unflatten
+import os
+import time
+from datetime import datetime, timedelta
 
-from parsers.parser import Parser
+import dateutil.parser
+import requests
+from dateutil.tz import tzlocal
+from flatten_dict import unflatten
 from helpers.asset_loader import AssetLoader
+from parsers.parser import Parser
 
 al = AssetLoader()
 
 
 class ZettleParser:  # Parser
     def __init__(self):
-        self.zettle = self.set_cred()
+        self.auth_token = None
 
     def intakt_type(self):
         return "Zettle"
 
-    def set_cred(self):
-        access_file = (
+    def get_new_auth_token(self):
+        access_file_path = (
             os.path.dirname(os.path.realpath(__file__)) + "/../credentials/access.json"
         )
+        with open(access_file_path) as access_file:
+            access_json = json.load(access_file)
 
-        with open(access_file) as f:
-            access_cred = json.load(f)
-            f.close()
-
-        client_id = access_cred["client_id"]
-        redirect_uri = "https://httpbin.org/get"
-
-        authorization_base_url = "https://oauth.zettle.com/authorize"
-        scope = ["READ:PURCHASE"]
-
-        zettle = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
-        authorization_url, _ = zettle.authorization_url(authorization_base_url)
-
-        # TODO: can this be done without human interaction?
-        redirect_response = input(authorization_url + "\n")
-
-        token_url = "https://oauth.zettle.com/token"
-        client_secret = access_cred["client_secret"]
-        zettle.fetch_token(
-            token_url,
-            include_client_id=True,
-            client_secret=client_secret,
-            authorization_response=redirect_response,
+        token_response = requests.post(
+            "https://oauth.zettle.com/token",
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+            data=f"grant_type={access_json['grant_type']}&client_id={access_json['client_id']}&assertion={access_json['assertion']}",
         )
 
-        return zettle
+        if token_response.ok:
+            response_json = token_response.json()
+            self.auth_token = response_json["access_token"]
+            response_json["expires_at"] = time.time() + response_json["expires_in"]
+
+            saved_token_file_path = (
+                os.path.dirname(os.path.realpath(__file__))
+                + "/../credentials/last_used_zettle_token.json"
+            )
+            with open(saved_token_file_path, "w") as saved_token_file:
+                json.dump(response_json, saved_token_file)
+        else:
+            print(
+                f"error, could not get auth token. http response: {token_response.status_code} {token_response.reason}"
+            )
+
+    def set_auth_token(self):
+        saved_token_file_path = (
+            os.path.dirname(os.path.realpath(__file__))
+            + "/../credentials/last_used_zettle_token.json"
+        )
+
+        try:
+            with open(saved_token_file_path) as saved_token_file:
+                saved_token_obj = json.load(saved_token_file)
+
+            if time.time() < saved_token_obj["expires_at"]:
+                self.auth_token = saved_token_obj["access_token"]
+                return
+
+        except FileNotFoundError:
+            pass
+
+        self.get_new_auth_token()
 
     def get_data_block(self, start, end, last_purpurchase_hash=None):
+        self.set_auth_token()
+
         if last_purpurchase_hash is None:
-            r = self.zettle.get(
-                f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&descending=true"
+            r = requests.get(
+                f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&descending=true",
+                headers={"Authorization": f"Bearer {self.auth_token}"},
             )
         else:
-            r = self.zettle.get(
-                f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&lastPurchaseHash={last_purpurchase_hash}&descending=true"
+            r = requests.get(
+                f"https://purchase.izettle.com/purchases/v2?startDate={start}&endDate={end}&lastPurchaseHash={last_purpurchase_hash}&descending=true",
+                headers={"Authorization": f"Bearer {self.auth_token}"},
             )
 
-        return r.json()  # encoding="utf-16"
+        return r.json()
 
     def create_limits(self, start_date: datetime, end_date: datetime):
         start = start_date.strftime("%Y-%m-%dT%H:%M")
