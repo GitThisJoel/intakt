@@ -1,6 +1,7 @@
 # Use to generate the JSON-object from the Zettle API respnose.
 import json
 import os
+import sys
 import time
 from datetime import datetime, timedelta
 
@@ -49,6 +50,7 @@ class ZettleParser:  # Parser
             print(
                 f"error, could not get auth token. http response: {token_response.status_code} {token_response.reason}"
             )
+            sys.exit(1)
 
     def set_auth_token(self):
         saved_token_file_path = (
