@@ -18,6 +18,23 @@ You need to choose which source to retrieve the data from using `-s` or `--sourc
 
 ### Zettle 
 
+#### Set up credentials
+
+To use the Zettle API you need an API key
+
+[Click this link to create a key](https://my.zettle.com/apps/api-keys?scopes=READ:PURCHASE)
+
+The client id and key should be put in the file `main/credentials/access.json` (create the credentials folder if it doesn't exist) and should look like this:
+```json
+{
+    "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+    "client_id": "<CLIENT_ID>",
+    "assertion": "<API KEY>"
+}
+```
+
+#### Use the program
+
 The available option for the Zettle parser is:
 - `-sd` / `--start-date`
 - `-ed` / `--end-date`

@@ -5,6 +5,7 @@ clientid
 access.json
 access_2.json
 api_cred.json
+credentials/
 
 response.json
 
