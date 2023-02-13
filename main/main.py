@@ -20,7 +20,11 @@ def swe_to_utc(dt: datetime):
 
 
 def handle_date(date, args):
-    return swe_to_utc(datetime.fromisoformat(args[date])) if args[date] is not None else None
+    return (
+        swe_to_utc(datetime.fromisoformat(args[date]))
+        if args[date] is not None
+        else None
+    )
 
 
 def args_handler(args):
@@ -29,6 +33,7 @@ def args_handler(args):
     end_date = handle_date("end_date", args)
     time_delta = args["time_delta"]
     input_fp = args["input_fp"]
+    output_fp = args["combine_output_fp"]
 
     print(start_date, end_date)
 
@@ -38,19 +43,27 @@ def args_handler(args):
             print("error, need to specify start date")
             return "", {}
 
-        return parser_cls.intakt_type(), parser_cls.get_sales(
-            time_delta,
-            start_date,
-            end_date,
+        return (
+            parser_cls.intakt_type(),
+            parser_cls.get_sales(
+                time_delta,
+                start_date,
+                end_date,
+            ),
+            output_fp,
         )
     elif parser_cls.intakt_type() == "Swish":
         if input_fp is None:
             print("error, need to specify input file path")
             return "", {}
 
-        return parser_cls.intakt_type(), parser_cls.get_sales(
-            input_fp,
-            time_delta,
+        return (
+            parser_cls.intakt_type(),
+            parser_cls.get_sales(
+                input_fp,
+                time_delta,
+            ),
+            output_fp,
         )
 
 
@@ -96,9 +109,17 @@ def main():
         help="Input file path",
     )
 
+    parser.add_argument(
+        "-o",
+        "--combine-output-fp",
+        default=None,
+        nargs="?",
+        help="The output file path for output PDFs if they are to be combined",
+    )
+
     args = vars(parser.parse_args())
     print(args)
-    intakt_type, parsed_data = args_handler(args)
+    intakt_type, parsed_data, output_fp = args_handler(args)
 
     if intakt_type == "" or len(parsed_data) == 0:
         return
@@ -108,7 +129,7 @@ def main():
         json.dump(parsed_data, f, indent=2)
         f.close()
 
-    tc = TexCompiler(outfile, intakt_type)
+    tc = TexCompiler(outfile, intakt_type, output_fp)
     tc.compile_all()
     return
 
