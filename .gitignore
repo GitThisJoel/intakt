@@ -10,6 +10,7 @@ credentials/
 response.json
 
 *.txt
+!requirements.txt
 
 **/*.csv
 *.csv
