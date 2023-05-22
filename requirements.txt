@@ -1,0 +1,8 @@
+flatten-dict
+python-dateutil
+pytz
+requests
+dash
+dash-bootstrap-components
+flask
+black
