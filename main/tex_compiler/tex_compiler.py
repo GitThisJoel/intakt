@@ -58,7 +58,7 @@ class TexCompiler:
         acc_map = {}
 
         for _, sale in sales.items():
-            name = sale["name"]
+            name = sale["name"].replace("&", "\\&")
             quantity = sale["quantity"]
             account = sale["account"]
             unit_price = sale["unit_price"]
