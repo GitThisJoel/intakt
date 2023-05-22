@@ -1,7 +1,6 @@
 # Used to generate the JSON-object from a swish report.
-from itertools import product
-from flatten_dict import unflatten
 
+from flatten_dict import unflatten
 from helpers.asset_loader import AssetLoader
 
 al = AssetLoader()
@@ -14,12 +13,10 @@ class SwishParser:
     def parse(self, input_fp):
         sales = {}
 
-        with open(input_fp, "r") as f:
+        with open(input_fp, "r", encoding="iso8859-1") as f:
             raw_data = f.readlines()
-            f.close()
 
-        header = raw_data[0]
-        titles = raw_data[1].split(";")
+        titles = raw_data[1].split("\t")
         print(titles)
         index_dict = {
             "date": titles.index("Transdag"),
@@ -28,8 +25,7 @@ class SwishParser:
         }
 
         for sale in raw_data[2:]:
-
-            sale_info = sale.split(";")
+            sale_info = sale.split("\t")
             date = sale_info[index_dict["date"]]
             product = sale_info[index_dict["product"]]
             price = int(100 * float(sale_info[index_dict["price"]].replace(",", ".")))
