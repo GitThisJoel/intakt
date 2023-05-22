@@ -34,6 +34,7 @@ def args_handler(args):
     time_delta = args["time_delta"]
     input_fp = args["input_fp"]
     output_fp = args["combine_output_fp"]
+    keep_tex = args["keep"]
 
     print(start_date, end_date)
 
@@ -51,6 +52,7 @@ def args_handler(args):
                 end_date,
             ),
             output_fp,
+            keep_tex,
         )
     elif parser_cls.intakt_type() == "Swish":
         if input_fp is None:
@@ -64,6 +66,7 @@ def args_handler(args):
                 time_delta,
             ),
             output_fp,
+            keep_tex,
         )
 
 
@@ -117,9 +120,16 @@ def main():
         help="The output file path for output PDFs if they are to be combined",
     )
 
+    parser.add_argument(
+        "--keep",
+        default=False,
+        action="store_true",
+        help="Keep the tex files after compilation",
+    )
+
     args = vars(parser.parse_args())
     print(args)
-    intakt_type, parsed_data, output_fp = args_handler(args)
+    intakt_type, parsed_data, output_fp, keep_tex = args_handler(args)
 
     if intakt_type == "" or len(parsed_data) == 0:
         return
@@ -129,7 +139,7 @@ def main():
         json.dump(parsed_data, f, indent=2)
         f.close()
 
-    tc = TexCompiler(outfile, intakt_type, output_fp)
+    tc = TexCompiler(outfile, intakt_type, output_fp, keep_tex)
     tc.compile_all()
     return
 

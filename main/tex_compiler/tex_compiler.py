@@ -31,7 +31,7 @@ class TexCommands:
 
 
 class TexCompiler:
-    def __init__(self, sales_fp, intakt_type, output_fp):
+    def __init__(self, sales_fp, intakt_type, output_fp, keep_tex):
         with open(sales_fp, "r") as f:
             self.sales = json.load(f)
             f.close()
@@ -44,6 +44,7 @@ class TexCompiler:
         self.today = date.today().isoformat()
 
         self.output_fp = output_fp
+        self.keep_tex = keep_tex
 
     def _conv_to_crown(self, x):
         s = str(x)
@@ -88,7 +89,6 @@ class TexCompiler:
             temp_f.close()
 
     def compile_all(self) -> None:
-
         for utskott, date_sales in self.sales.items():
             master = al.masters[utskott]
             for date, sales in date_sales.items():
@@ -125,7 +125,7 @@ class TexCompiler:
                             f"pdflatex -output-directory=intaktsrakningar {self.tex_file}",
                             f"rm intaktsrakningar/{utskott}{date_str}.log",
                             f"rm intaktsrakningar/{utskott}{date_str}.aux",
-                            f"rm {self.tex_file}",
+                            f"rm {self.tex_file}" if not self.keep_tex else "true",
                         ]
                     )
                 )
