@@ -86,6 +86,18 @@ class ZettleParser:  # Parser
             )
 
         return r.json()
+    
+    def get_fees(self, start, end):
+        self.set_auth_token()
+
+        start, end = self.create_limits(start, end)
+
+        r = requests.get(
+            f"https://finance.izettle.com/v2/accounts/LIQUID/transactions?start={start}&end={end}&includeTransactionType=PAYMENT_FEE",
+            headers={"Authorization": f"Bearer {self.auth_token}"},
+        )
+
+        return r.json()
 
     def create_limits(self, start_date: datetime, end_date: datetime):
         start = start_date.strftime("%Y-%m-%dT%H:%M")
