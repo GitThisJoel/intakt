@@ -86,18 +86,43 @@ class ZettleParser:  # Parser
             )
 
         return r.json()
-    
+
     def get_fees(self, start, end):
         self.set_auth_token()
 
         start, end = self.create_limits(start, end)
+
+        transactions = []
 
         r = requests.get(
             f"https://finance.izettle.com/v2/accounts/LIQUID/transactions?start={start}&end={end}&includeTransactionType=PAYMENT_FEE",
             headers={"Authorization": f"Bearer {self.auth_token}"},
         )
 
-        return r.json()
+        while r.json():
+            transactions += r.json()
+            r = requests.get(
+                f"https://finance.izettle.com/v2/accounts/LIQUID/transactions?start={start}&end={end}&includeTransactionType=PAYMENT_FEE&offset={len(transactions)}",
+                headers={"Authorization": f"Bearer {self.auth_token}"},
+            )
+
+        dates = {}
+        for transaction in transactions:
+            date = transaction["timestamp"].split("T")[0]
+            # month = date.rsplit("-", 1)[0]
+            if date in dates:
+                dates[date][date]["unit_price"] += transaction["amount"]
+            else:
+                dates[date] = {
+                    date: {
+                        "name": "Zettle avgift",
+                        "quantity": 1,
+                        "unit_price": transaction["amount"],
+                        "account": 6540,
+                    }
+                }
+
+        return {"skatt": dates}
 
     def create_limits(self, start_date: datetime, end_date: datetime):
         start = start_date.strftime("%Y-%m-%dT%H:%M")

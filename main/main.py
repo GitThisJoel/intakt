@@ -42,7 +42,7 @@ def args_handler(args):
     if "fee" in source:
         parser_cls = ZettleParser()
         return (
-            "zettle_fees",
+            "Zettle fees",
             parser_cls.get_fees(
                 start_date,
                 end_date,
@@ -146,19 +146,19 @@ def main():
 
     if intakt_type == "" or len(parsed_data) == 0:
         return
-    
-    if intakt_type == "zettle_fees":
-        with open("zettle_fees.json", "w") as f:
-            json.dump(parsed_data, f, indent=2)
-        # print(parsed_data)
-        return
 
     outfile = "response.json"
     with open(outfile, "w") as f:
         json.dump(parsed_data, f, indent=2)
         f.close()
 
-    tc = TexCompiler(outfile, intakt_type, output_fp, keep_tex)
+    tc = TexCompiler(
+        outfile,
+        intakt_type,
+        output_fp,
+        keep_tex,
+        zettle_fee_mode=("fees" in args["source"]),
+    )
     tc.compile_all()
     return
 
