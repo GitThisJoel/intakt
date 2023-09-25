@@ -14,7 +14,7 @@ There is two ways the program can be ran.
 
 The terminal bassed approach works a bit diffrently whether you want a Zettle or a Swish report.
 
-You need to choose which source to retrieve the data from using `-s` or `--source`.
+You need to choose which source to retrieve the data from using `-s` or `--source`. Available options are `zettle`, `swish` and `fees`.
 
 ### Zettle 
 
@@ -22,7 +22,7 @@ You need to choose which source to retrieve the data from using `-s` or `--sourc
 
 To use the Zettle API you need an API key
 
-[Click this link to create a key](https://my.zettle.com/apps/api-keys?scopes=READ:PURCHASE)
+[Click this link to create a key](https://my.zettle.com/apps/api-keys?scopes=READ:PURCHASE%20READ:FINANCE)
 
 The client id and key should be put in the file `main/credentials/access.json` (create the credentials folder if it doesn't exist) and should look like this:
 ```json
@@ -53,9 +53,13 @@ Ex. 2:
 ./main/main.py --start-date 2022-04-04 --end-date 2022-05-04
 ```
 
+#### Fees
+
+Use source `fees` together with start and end dates to get the fees from Zettle.
+
 ### Swish
 
-Swish is used  in a similar manor.
+Swish is used in a similar manor.
 The available arguments are:
 - `-inp` / `--input-fp`
 
