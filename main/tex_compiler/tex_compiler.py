@@ -31,20 +31,22 @@ class TexCommands:
 
 
 class TexCompiler:
-    def __init__(self, sales_fp, intakt_type, output_fp, keep_tex):
+    def __init__(
+        self, sales_fp, intakt_type, output_fp, keep_tex, zettle_fee_mode=False
+    ):
         with open(sales_fp, "r") as f:
             self.sales = json.load(f)
             f.close()
 
         self.intakt_type = intakt_type
-        self.intakt_skeleton = (
-            os.path.dirname(os.path.realpath(inspect.getfile(self.__class__)))
-            + "/intakt.tex"
-        )
+        self.intakt_skeleton = os.path.dirname(
+            os.path.realpath(inspect.getfile(self.__class__))
+        ) + ("/zettleavgift.tex" if zettle_fee_mode else "/intakt.tex")
         self.today = date.today().isoformat()
 
         self.output_fp = output_fp
         self.keep_tex = keep_tex
+        self.zettle_fee_mode = zettle_fee_mode
 
     def _conv_to_crown(self, x):
         s = str(x)
@@ -65,7 +67,23 @@ class TexCompiler:
             tot = quantity * unit_price
 
             summa += tot
-            varor += f"{name} & {account} & {quantity} & {self._conv_to_crown(unit_price)} & {self._conv_to_crown(tot)}\\\\"
+            if self.zettle_fee_mode:
+                varor += (
+                    " & ".join((name, str(account), self._conv_to_crown(tot))) + "\\\\"
+                )
+            else:
+                varor += (
+                    " & ".join(
+                        (
+                            name,
+                            str(account),
+                            str(quantity),
+                            self._conv_to_crown(unit_price),
+                            self._conv_to_crown(tot),
+                        )
+                    )
+                    + "\\\\"
+                )
             if account in acc_map:
                 acc_map[account] += tot
             else:
