@@ -10,6 +10,7 @@ import requests
 from dateutil.tz import tzlocal
 from flatten_dict import unflatten
 from helpers.asset_loader import AssetLoader
+from helpers.path_handler import credentials_dir
 from parsers.parser import Parser
 
 al = AssetLoader()
@@ -23,9 +24,7 @@ class ZettleParser:  # Parser
         return "Zettle"
 
     def get_new_auth_token(self):
-        access_file_path = (
-            os.path.dirname(os.path.realpath(__file__)) + "/../credentials/access.json"
-        )
+        access_file_path = credentials_dir() / "access.json"
         with open(access_file_path) as access_file:
             access_json = json.load(access_file)
 
@@ -40,10 +39,7 @@ class ZettleParser:  # Parser
             self.auth_token = response_json["access_token"]
             response_json["expires_at"] = time.time() + response_json["expires_in"]
 
-            saved_token_file_path = (
-                os.path.dirname(os.path.realpath(__file__))
-                + "/../credentials/last_used_zettle_token.json"
-            )
+            saved_token_file_path = credentials_dir() / "last_used_zettle_token.json"
             with open(saved_token_file_path, "w") as saved_token_file:
                 json.dump(response_json, saved_token_file)
         else:
@@ -53,10 +49,7 @@ class ZettleParser:  # Parser
             sys.exit(1)
 
     def set_auth_token(self):
-        saved_token_file_path = (
-            os.path.dirname(os.path.realpath(__file__))
-            + "/../credentials/last_used_zettle_token.json"
-        )
+        saved_token_file_path = credentials_dir() / "last_used_zettle_token.json"
 
         try:
             with open(saved_token_file_path) as saved_token_file:
@@ -109,7 +102,6 @@ class ZettleParser:  # Parser
         dates = {}
         for transaction in transactions:
             date = transaction["timestamp"].split("T")[0]
-            # month = date.rsplit("-", 1)[0]
             if date in dates:
                 dates[date][date]["unit_price"] += transaction["amount"]
             else:
@@ -193,17 +185,11 @@ class ZettleParser:  # Parser
                 if "name" not in product:
                     product_name = "UNKNOWN"
                     if product["type"] == "CUSTOM_AMOUNT":
-                        # IF YOU SELL A PRODUCT USING CUSTOM AMOUNT, I WISH YOU A UNPLEASANT DAY
+                        # IF YOU SELL A PRODUCT USING CUSTOM AMOUNT, I WISH YOU AN UNPLEASANT DAY
+                        # WORST REGARDS!
                         product_name = "CUSTOM AMOUNT"
                 else:
                     product_name = product["name"]
-
-                # product_name.replace("\u00e5", "å")
-                # product_name.replace("\u00c5", "Å")
-                # product_name.replace("\u00e4", "ä")
-                # product_name.replace("\u00c4", "Ä")
-                # product_name.replace("\u00f6", "ö")
-                # product_name.replace("\u00D6", "Ö")
 
                 product_name = product_name.replace("\\", "\\\\")
                 product_name = product_name.replace("&", "\&")
