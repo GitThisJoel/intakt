@@ -198,17 +198,6 @@ class ZettleParser:  # Parser
                 else:
                     product_name = product["name"]
 
-                # product_name.replace("\u00e5", "å")
-                # product_name.replace("\u00c5", "Å")
-                # product_name.replace("\u00e4", "ä")
-                # product_name.replace("\u00c4", "Ä")
-                # product_name.replace("\u00f6", "ö")
-                # product_name.replace("\u00D6", "Ö")
-
-                product_name = product_name.replace("\\", "\\\\")
-                product_name = product_name.replace("&", "\&")
-                product_name = product_name.replace("$", "\$")
-
                 unit_price = product["unitPrice"]
                 quantity = int(product["quantity"])
 
