@@ -1,16 +1,15 @@
 # Used to retreive Zettle purchase data using their API.
 import json
-from requests_oauthlib import OAuth2Session
 
+from requests_oauthlib import OAuth2Session
 from datetime import datetime
 from datetime import timedelta
 
-import sys, os
+from helpers.path_handler import credentials_dir
 
-access_file = os.path.dirname(os.path.realpath(__file__)) + "/credentials/access.json"
+access_file = credentials_dir() / "access.json"
 with open(access_file) as f:
     access_cred = json.load(f)
-    f.close()
 
 client_id = access_cred["client_id"]
 client_secret = access_cred["client_secret"]

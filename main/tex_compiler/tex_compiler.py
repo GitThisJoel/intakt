@@ -1,10 +1,12 @@
 import os
-from dataclasses import dataclass, asdict
-from datetime import date
 import json
 import inspect
 
+from dataclasses import dataclass, asdict
+from datetime import date
+
 from helpers.asset_loader import AssetLoader
+from helpers.path_handler import tex_dir
 
 al = AssetLoader()
 
@@ -39,9 +41,9 @@ class TexCompiler:
             f.close()
 
         self.intakt_type = intakt_type
-        self.intakt_skeleton = os.path.dirname(
-            os.path.realpath(inspect.getfile(self.__class__))
-        ) + ("/zettleavgift.tex" if zettle_fee_mode else "/intakt.tex")
+        _skeleton_file_name = "zettleavgift.tex" if zettle_fee_mode else "intakt.tex"
+        self.intakt_skeleton = tex_dir() / _skeleton_file_name
+
         self.today = date.today().isoformat()
 
         self.output_fp = output_fp
@@ -101,10 +103,9 @@ class TexCompiler:
 
     def _prepend_commands(self):
         cmds = str(self.tex_commands)
+        with open(self.intakt_skeleton, "r") as skel_f:
+            tex_skeleton = skel_f.read()
         with open(self.tex_file, "w") as temp_f:
-            with open(self.intakt_skeleton, "r") as skel_f:
-                tex_skeleton = skel_f.read()
-                skel_f.close()
             temp_f.seek(0)
             temp_f.write(cmds)
             temp_f.write(tex_skeleton)
@@ -116,10 +117,7 @@ class TexCompiler:
             master = al.masters[utskott]
             for date, sales in date_sales.items():
                 date_str = date.replace("-", "_")
-                self.tex_file = (
-                    os.path.dirname(os.path.realpath(inspect.getfile(self.__class__)))
-                    + f"/{utskott}{date_str}.tex"
-                )
+                self.tex_file = tex_dir() / f"{utskott}{date_str}.tex"
 
                 summa, fordelning, varor = self._beskrivningfordelning_fordelning_sum(
                     sales

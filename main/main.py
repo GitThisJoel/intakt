@@ -1,19 +1,18 @@
 #! /usr/bin/env python3
-import sys, os
+import sys
+from helpers.path_handler import main_dir
 
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+sys.path.append(main_dir())
 
-from datetime import datetime
 import pytz
 import argparse
 import json
 
+from datetime import datetime
+
 from parser_finder import parser_finder
 from parsers.zettle_parser import ZettleParser
 from tex_compiler.tex_compiler import TexCompiler
-
-from datetime import datetime
-import pytz
 
 
 def swe_to_utc(dt: datetime):
