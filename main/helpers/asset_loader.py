@@ -1,10 +1,10 @@
 import json
-from path_handler import main_dir
+from path_handler import assets_dir
 
 
 class AssetLoader:
     def __init__(self):
-        self._asset_directory = main_dir() / "assets"
+        self._asset_directory = assets_dir()
         self.load_assets()
 
     def _read_file(self, fp):
