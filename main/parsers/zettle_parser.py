@@ -216,7 +216,6 @@ class ZettleParser:  # Parser
                         f.write(str(purchase))
                         f.write("\n")
                         f.write("-----------------------\n\n")
-                        f.close()
                     short_utskott = "sk"
 
                 if short_utskott == "sk":
