@@ -1,5 +1,5 @@
 import json
-from path_handler import assets_dir
+from helpers.path_handler import assets_dir
 
 
 class AssetLoader:
