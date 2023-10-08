@@ -82,7 +82,7 @@ def args_handler(args):
         )
 
 
-def main():
+def create_arg_parser():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -138,8 +138,12 @@ def main():
         action="store_true",
         help="Keep the tex files after compilation",
     )
+    return parser
 
-    args = vars(parser.parse_args())
+
+def main():
+    arg_parser = create_arg_parser()
+    args = vars(arg_parser.parse_args())
     print(args)
     intakt_type, parsed_data, output_fp, keep_tex = args_handler(args)
 
