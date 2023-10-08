@@ -50,7 +50,8 @@ def args_handler(args):
             keep_tex,
         )
 
-    parser_cls = parser_finder(source)()
+    parser_cls = parser_finder(source)
+    parser_cls = parser_cls()
     if parser_cls.intakt_type() == "Zettle":
         if start_date is None:
             print("error, need to specify start date")
