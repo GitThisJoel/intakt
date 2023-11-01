@@ -134,7 +134,9 @@ class ZettleParser:  # Parser
     def get_short_utskott(self, name):
         return name.split("-")[0].strip().lower()
 
-    def entire_purchase_discount(self, date: datetime, sales, purchase):
+    def entire_purchase_discount(
+        self, date: datetime, sales, purchase, utskott_filter=""
+    ):
         short_utskott = self.get_short_utskott(purchase["products"][0]["name"])
         all_same = True
         for product in purchase["products"][1:]:
@@ -142,8 +144,12 @@ class ZettleParser:  # Parser
                 all_same = False
                 break
 
-        utskott_name = al.utskott_accounts[short_utskott]["name"]
         if all_same:
+            utskott_name = al.utskott_accounts[short_utskott]["name"]
+
+            if utskott_filter and utskott_name != utskott_filter:
+                return sales
+
             total_discount = 0
             for discount in purchase["discounts"]:
                 total_discount += discount["value"]
@@ -171,7 +177,7 @@ class ZettleParser:  # Parser
 
         return sales
 
-    def extract_data(self, sales, data):
+    def extract_data(self, sales, data, utskott_filter=""):
         for purchase in data["purchases"]:
             # amount = purchase["amount"]  # in öre
             timestamp = purchase["timestamp"]
@@ -179,7 +185,9 @@ class ZettleParser:  # Parser
             str_date = date.strftime("%Y-%m-%dT%H:%M")
 
             if "discounts" in purchase and len(purchase["discounts"]) > 0:
-                sales = self.entire_purchase_discount(date, sales, purchase)
+                sales = self.entire_purchase_discount(
+                    date, sales, purchase, utskott_filter
+                )
 
             for product in purchase["products"]:
                 if "name" not in product:
@@ -227,6 +235,9 @@ class ZettleParser:  # Parser
                 account = utskott_account["account"]
                 utskott_name = utskott_account["name"]
 
+                if utskott_filter and utskott_name != utskott_filter:
+                    continue
+
                 product_name_index = product_name + str(unit_price)
 
                 sale_key = "_".join(
@@ -257,6 +268,7 @@ class ZettleParser:  # Parser
         time_delta,
         start_date: datetime,
         end_date: datetime,
+        utskott_filter="",
     ):
         start, end = self.create_limits(start_date, end_date)
         print(f"{start=}, {end=}")
@@ -266,7 +278,7 @@ class ZettleParser:  # Parser
 
         data = self.get_data_block(start, end, last_purpurchase_hash=None)
         while len(data["purchases"]) > 0:
-            sales = self.extract_data(sales, data)
+            sales = self.extract_data(sales, data, utskott_filter)
 
             last_purchase_hash = data["lastPurchaseHash"]
             data = self.get_data_block(
