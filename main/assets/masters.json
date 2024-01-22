@@ -1,56 +1,56 @@
 {
     "aktu": {
         "proper_name": "Aktivitetsutskottet",
-        "name": "Rafael Holgersson",
-        "stilid": "ra6147ho-s",
+        "name": "Joel Dahl",
+        "stilid": "jo1045da-s",
         "description": "Aktivitetsutskottets verksamhet"
     },
     "uted": {
         "proper_name": "Utedischot",
-        "name": "Rafael Holgersson",
-        "stilid": "ra6147ho-s",
+        "name": "Joel Dahl",
+        "stilid": "jo1045da-s",
         "description": "Utedischots verksamhet"
     },
     "cafe": {
         "proper_name": "Cafémästeriet",
-        "name": "Arvid Karp",
-        "stilid": "ar0043ka-s",
+        "name": "Ellen Engblom",
+        "stilid": "el6447en-s",
         "description": "Cafémästeriets verksamhet"
     },
     "dshop": {
         "proper_name": "D-shopen",
-        "name": "Rafael Holgersson",
-        "stilid": "ra6147ho-s",
+        "name": "Joel Dahl",
+        "stilid": "jo1045da-s",
         "description": "Försäljning i D-shopen"
     },
     "dchip": {
         "proper_name": "D-chip",
-        "name": "Alice Tottie",
-        "stilid": "al7546to-s",
+        "name": "Linnea Sandsjö",
+        "stilid": "li0141sa-s",
         "description": "D-chips verksamhet"
     },
     "medalj": {
         "proper_name": "Medaljelelekommitén",
-        "name": "Axel Rosenquist",
-        "stilid": "ax3833ro-s",
+        "name": "Lowe Christiansen",
+        "stilid": "lo0451ch-s",
         "description": "Medaljelelekommiténs verksamhet"
     },
     "noll": {
         "proper_name": "Nollningsutskottet",
-        "name": "Pernilla Åström",
-        "stilid": "pe2312as-s",
+        "name": "Rasmus Svensson",
+        "stilid": "ra5746sv-s",
         "description": "Nollningsutskottets verksamhet"
     },
     "skatt": {
         "proper_name": "Skattmästeriet",
-        "name": "Axel Svensson",
-        "stilid": "ax6160sv-s",
+        "name": "Felix Vigren",
+        "stilid": "fe0024vi-s",
         "description": "Bank-, Zettle- eller Swish-kostnader / okända utskott"
     },
     "sex": {
         "proper_name": "Sexmästeriet",
-        "name": "Ludvig Svedberg",
-        "stilid": "lu4185sv-s",
+        "name": "Måns Bard Nilsson",
+        "stilid": "ma6768ba-s",
         "description": "Sexmästeriets verksamhet"
     }
 }
