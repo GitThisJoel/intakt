@@ -71,6 +71,13 @@ Ex. 1
 ./main/main.py --source "swish" -inp swish/jan_aug.csv
 ```
 
+### Options for both
+
+The following options are available for both Zettle and Swish:
+- `-o <filename>`: Uses `pdfjam` (included with _TeX Live_) to combine the output files into one file.
+- `--keep`: Don't delete the .tex files created by the program.
+- `--utskott <utskott name>`: Specify the utskott to generate intäktsräkningar for. If not specified, all utskott will be included.
+
 ## Front end
 
 To start the web page you need to run 

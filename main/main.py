@@ -35,6 +35,7 @@ def args_handler(args):
     input_fp = args["input_fp"]
     output_fp = args["combine_output_fp"]
     keep_tex = args["keep"]
+    utskott_filter = args["utskott"]
 
     print(start_date, end_date)
 
@@ -62,6 +63,7 @@ def args_handler(args):
                 time_delta,
                 start_date,
                 end_date,
+                utskott_filter,
             ),
             output_fp,
             keep_tex,
@@ -76,6 +78,7 @@ def args_handler(args):
             parser_cls.get_sales(
                 input_fp,
                 time_delta,
+                utskott_filter,
             ),
             output_fp,
             keep_tex,
@@ -137,6 +140,13 @@ def main():
         default=False,
         action="store_true",
         help="Keep the tex files after compilation",
+    )
+
+    parser.add_argument(
+        "--utskott",
+        default="",
+        nargs="?",
+        help="Which utskott to generate for. If not specified, all utskott will be generated",
     )
 
     args = vars(parser.parse_args())
