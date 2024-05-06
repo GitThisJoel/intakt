@@ -38,7 +38,6 @@ class TexCompiler:
     ):
         with open(sales_fp, "r") as f:
             self.sales = json.load(f)
-            f.close()
 
         self.intakt_type = intakt_type
         _skeleton_file_name = "zettleavgift.tex" if zettle_fee_mode else "intakt.tex"
@@ -103,14 +102,13 @@ class TexCompiler:
 
     def _prepend_commands(self):
         cmds = str(self.tex_commands)
-        with open(self.intakt_skeleton, "r") as skel_f:
-            tex_skeleton = skel_f.read()
+        tex_skeleton = self.intakt_skeleton.read_text()
+
         with open(self.tex_file, "w") as temp_f:
             temp_f.seek(0)
             temp_f.write(cmds)
             temp_f.write(tex_skeleton)
             temp_f.truncate()
-            temp_f.close()
 
     def compile_all(self) -> None:
         for utskott, date_sales in self.sales.items():

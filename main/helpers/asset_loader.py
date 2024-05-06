@@ -10,7 +10,6 @@ class AssetLoader:
     def _read_file(self, fp):
         with open(fp, "r") as f:
             content = json.load(f)
-        f.close()
         return content
 
     def load_assets(self):
