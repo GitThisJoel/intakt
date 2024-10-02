@@ -159,7 +159,6 @@ def main():
     outfile = "response.json"
     with open(outfile, "w") as f:
         json.dump(parsed_data, f, indent=2)
-        f.close()
 
     tc = TexCompiler(
         outfile,
