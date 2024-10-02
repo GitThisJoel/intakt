@@ -10,7 +10,7 @@ class SwishParser:
     def intakt_type(self):
         return "Swish"
 
-    def parse(self, input_fp):
+    def parse(self, input_fp, utskott_filter=""):
         sales = {}
 
         with open(input_fp, "r", encoding="iso8859-1") as f:
@@ -47,6 +47,9 @@ class SwishParser:
             account = utskott_account["account"]
             utskott_name = utskott_account["name"]
 
+            if utskott_filter and utskott_name != utskott_filter:
+                continue
+
             product_name_index = product_name + str(price)
 
             sale_key = "_".join([utskott_name, date, product_name_index])
@@ -61,8 +64,8 @@ class SwishParser:
                 }
         return sales
 
-    def get_sales(self, input_fp, time_delta):
-        sales = self.parse(input_fp)
+    def get_sales(self, input_fp, time_delta, utskott_filter=""):
+        sales = self.parse(input_fp, utskott_filter)
 
         def delimiter_splitter(key):
             return key.split("_")
