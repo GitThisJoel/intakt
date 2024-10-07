@@ -229,7 +229,7 @@ class ZettleParser:  # Parser
                 if short_utskott == "sk":
                     print(product_name.split("-"))
                 if len(product_name.split("-")) > 1:
-                    product_name = "".join(product_name.split("-")[1:])
+                    product_name = product_name.split("-", maxsplit=1)[1].strip()
                 utskott_account = al.utskott_accounts[short_utskott]
                 account = utskott_account["account"]
                 utskott_name = utskott_account["name"]

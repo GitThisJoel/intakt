@@ -60,7 +60,7 @@ class TexCompiler:
 
         acc_map = {}
 
-        for _, sale in sales.items():
+        for _, sale in sorted(sales.items(), key=lambda x: x[0].lower()):
             name = (
                 sale["name"]
                 .replace("\\", "\\textbackslash")
@@ -95,7 +95,7 @@ class TexCompiler:
             else:
                 acc_map[account] = tot
 
-        for acc, sales in acc_map.items():
+        for acc, sales in sorted(acc_map.items()):
             fordelning += f"{acc} & {al.account_description[str(acc)]} & {self._conv_to_crown(sales)}\\\\"
 
         return self._conv_to_crown(summa), fordelning, varor
